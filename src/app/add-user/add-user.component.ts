@@ -11,10 +11,14 @@ import {Permissions, User} from "../interfaces/user-model";
 export class AddUserComponent implements OnInit {
 
   formGroup: FormGroup;
+  created: boolean;
+  username: string;
 
   constructor(private crudService: CrudService, private formBuilder: FormBuilder) {
     this.formGroup = new FormGroup({
     });
+    this.created = false;
+    this.username = "";
   }
 
   ngOnInit(): void {
@@ -63,6 +67,7 @@ export class AddUserComponent implements OnInit {
   }
 
   create(): void {
+    this.created = false;
     if(!this.formGroup.valid) {
       alert("Please fill in the fields correctly.");
       return;
@@ -78,9 +83,9 @@ export class AddUserComponent implements OnInit {
     }
     console.log(user);
     this.crudService.createUser(user).subscribe(
-      (response => {
-        console.log("Success... I think");
-        console.log(response);
+      (() => {
+        this.created = true;
+        this.username = user.email;
       }),
       (error => {
         alert(error);

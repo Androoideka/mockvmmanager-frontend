@@ -5,7 +5,9 @@
       <a [routerLink]="'/list'" class="nav-link">User List</a>
       <a [routerLink]="'/create'" class="nav-link">Create User</a>
     </div>
-    <a [routerLink]="'/login'" class="nav-link">Sign in</a>
+    <a *ngIf="!isAuthenticated" [routerLink]="'/login'" class="nav-link">Sign in</a>
+    <span *ngIf="isAuthenticated">Welcome, {{ identifier }}!</span>
+    <a *ngIf="isAuthenticated" (click)="logOut()" class="nav-link">Log out</a>
   </div>
 </nav>
 <div class="container-fluid">

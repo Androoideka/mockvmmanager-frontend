@@ -42,6 +42,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     if(error.status === 0) {
       errorMessage = "Please try again.";
     }
+    if(error.status === 400) {
+      errorMessage = error.error.message;
+    }
     if(error.status === 401) {
       errorMessage = "Your credentials were incorrect.";
     }

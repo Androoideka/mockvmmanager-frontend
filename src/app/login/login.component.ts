@@ -47,10 +47,9 @@ export class LoginComponent implements OnInit {
       email: this.email,
       password: this.password
     };
-    this.authenticationService.obtainAuthentication(login).subscribe((result => {
+    this.authenticationService.obtainAuthentication(login).subscribe((() => {
       this.welcome = true;
-      console.log(result);
-    }))
+    }));
   }
 
 }

@@ -44,4 +44,12 @@ export class AuthenticationService {
       return response;
     }));
   }
+
+  logOut(): void {
+    localStorage.clear();
+    this.authentication = {
+      token: localStorage.getItem('token') ?? '',
+      identifier: localStorage.getItem('identifier') ?? ''
+    }
+  }
 }
