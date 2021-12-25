@@ -1,0 +1,42 @@
+<form [formGroup]="formGroup" (submit)="create()" class="row">
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mb-3">
+    <label for="email-input" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email-input" [formControlName]="'email_input'" required>
+    <div id="email-help" class="form-text">Your email must be unique.</div>
+  </div>
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mb-5">
+    <label for="password-input" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password-input" [formControlName]="'password_input'" required>
+  </div>
+  <div class="col-5 offset-1 col-xl-3 offset-xl-3 mb-3">
+    <label for="name-input" class="form-label">First name</label>
+    <input type="text" class="form-control" id="name-input" [formControlName]="'name_input'" required>
+  </div>
+  <div class="col-5 col-xl-3 mb-3">
+    <label for="surname-input" class="form-label">Last name</label>
+    <input type="text" class="form-control" id="surname-input" [formControlName]="'surname_input'" required>
+  </div>
+  <div class="col-12 col-md-6 col-xl-3 offset-xl-3 mb-3 text-center text-md-end">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" id="read" [formControlName]="'can_read_users'">
+      <label class="form-check-label" for="read">can_read_users</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" id="create" [formControlName]="'can_create_users'">
+      <label class="form-check-label" for="create">can_create_users</label>
+    </div>
+  </div>
+  <div class="col-12 col-md-6 col-xl-3 text-center text-md-start mb-3">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" id="update" [formControlName]="'can_update_users'">
+      <label class="form-check-label" for="update">can_update_users</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" id="delete" [formControlName]="'can_delete_users'">
+      <label class="form-check-label" for="delete">can_delete_users</label>
+    </div>
+  </div>
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>

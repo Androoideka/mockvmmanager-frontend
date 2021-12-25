@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup" (submit)="authenticate()" class="row">
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mb-3">
+    <label for="email-input" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email-input" [formControlName]="'email_input'" required>
+  </div>
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mb-3">
+    <label for="password-input" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password-input" [formControlName]="'password_input'" required>
+  </div>
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+<div class="row" *ngIf="welcome">
+  <div class="col-12 text-center">
+    Welcome, {{ identifier }}
+  </div>
+</div>
