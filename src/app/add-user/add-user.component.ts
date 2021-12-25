@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CrudService} from "../services/crud.service";
-import {Permissions, User} from "../interfaces/user-model";
+import {PermissionList, User} from "../interfaces/user-model";
 
 @Component({
   selector: 'app-add-user',
@@ -73,13 +73,13 @@ export class AddUserComponent implements OnInit {
       return;
     }
     //let encodedPassword: string = btoa(this.password);
-    let permissions: Permissions = new Permissions(this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users);
-    let user: User = {
+    const permissionList: PermissionList = PermissionList.fromValues(this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users);
+    const user: User = {
       email: this.email,
       password: this.password,
       name: this.name,
       surname: this.surname,
-      permissionListDTO: permissions
+      permissionList: permissionList
     }
     console.log(user);
     this.crudService.createUser(user).subscribe(

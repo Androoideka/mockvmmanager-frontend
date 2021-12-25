@@ -12,23 +12,49 @@ export var PERMISSION_SHORT_VALUES: string[] = [
   'd'
 ]
 
+export interface UserResponse {
+  email: string,
+  password: string,
+  name: string,
+  surname: string,
+  permissionListResponse: PermissionListResponse
+}
+
+export interface PermissionListResponse {
+  permissionValues: boolean[];
+}
+
 export class User {
+  static fromResponse(userResponse: UserResponse): User {
+    const permissionList = PermissionList.fromResponse(userResponse.permissionListResponse);
+    return new User(userResponse.email, userResponse.password, userResponse.name, userResponse.surname, permissionList);
+  }
+
   constructor(public email: string,
               public password: string,
               public name: string,
               public surname: string,
-              public permissionListDTO: Permissions) {
+              public permissionList: PermissionList) {
   }
 }
 
-export class Permissions {
+export class PermissionList {
   private readonly permissionValues: boolean[];
 
-  constructor(can_read_users: boolean,
-              can_create_users: boolean,
-              can_update_users: boolean,
-              can_delete_users: boolean) {
-    this.permissionValues = [can_create_users, can_read_users, can_update_users, can_delete_users];
+  static fromResponse(permissionResponse: PermissionListResponse): PermissionList {
+    return new PermissionList(permissionResponse.permissionValues);
+  }
+
+  static fromValues(can_read_users: boolean,
+                    can_create_users: boolean,
+                    can_update_users: boolean,
+                    can_delete_users: boolean): PermissionList {
+    const permissionValues = [can_create_users, can_read_users, can_update_users, can_delete_users];
+    return new PermissionList(permissionValues);
+  }
+
+  constructor(permissionValues: boolean[]) {
+    this.permissionValues = permissionValues;
   }
 
   get can_read_users(): boolean {
@@ -74,4 +100,14 @@ export class Permissions {
     }
     return display;
   }
+}
+
+export interface UserPageResponse {
+  content: UserResponse[],
+  totalPages: number;
+}
+
+export interface UserPage {
+  content: User[];
+  totalPages: number;
 }
