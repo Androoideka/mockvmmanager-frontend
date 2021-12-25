@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {User} from "../interfaces/user-model";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class CrudService {
 
   constructor(private httpClient: HttpClient) { }
 
-  createUser(user: User): Observable<unknown> {
+  createUser(user: User): Observable<null> {
     return this.httpClient.post<null>(this.apiUrl + this.createUrl, user);
   }
 }
