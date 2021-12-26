@@ -21,6 +21,10 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get can_update(): boolean {
+    return this.authenticationService.getPermissions.can_update_users;
+  }
+
   get can_delete(): boolean {
     return this.authenticationService.getPermissions.can_delete_users;
   }

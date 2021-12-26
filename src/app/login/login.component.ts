@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../services/authentication.service";
-import {Login} from "../interfaces/login";
+import {LoginRequest} from "../interfaces/user-dto";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -40,15 +40,19 @@ export class LoginComponent implements OnInit {
 
   authenticate(): void {
     if(this.formGroup.invalid) {
-      alert("Please fill in the fields correctly.");
+      alert('Please fill in the fields correctly.');
       return;
     }
-    let login: Login = {
+    let login: LoginRequest = {
       email: this.email,
       password: this.password
     };
-    this.authenticationService.obtainAuthentication(login).subscribe((() => {
+    this.authenticationService.obtainAuthentication(login).subscribe((response => {
       this.welcome = true;
+      if(!response.user.permissionList.can_read_users && !response.user.permissionList.can_create_users
+        && !response.user.permissionList.can_update_users && !response.user.permissionList.can_delete_users) {
+        alert('You do not have any permissions.')
+      }
     }));
   }
 

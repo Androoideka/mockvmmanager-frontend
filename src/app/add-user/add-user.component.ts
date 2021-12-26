@@ -43,33 +43,33 @@ export class AddUserComponent implements OnInit {
   }
 
   get name(): string {
-    return this.formGroup.get("name_input")?.value;
+    return this.formGroup.get('name_input')?.value;
   }
 
   get surname(): string {
-    return this.formGroup.get("surname_input")?.value;
+    return this.formGroup.get('surname_input')?.value;
   }
 
   get can_read_users(): boolean {
-    return this.formGroup.get("can_read_users")?.value;
+    return this.formGroup.get('can_read_users')?.value;
   }
 
   get can_create_users(): boolean {
-    return this.formGroup.get("can_create_users")?.value;
+    return this.formGroup.get('can_create_users')?.value;
   }
 
   get can_update_users(): boolean {
-    return this.formGroup.get("can_update_users")?.value;
+    return this.formGroup.get('can_update_users')?.value;
   }
 
   get can_delete_users(): boolean {
-    return this.formGroup.get("can_delete_users")?.value;
+    return this.formGroup.get('can_delete_users')?.value;
   }
 
-  create(): void {
+  createUser(): void {
     this.created = false;
     if(!this.formGroup.valid) {
-      alert("Please fill in the fields correctly.");
+      alert('Please fill in the fields correctly.');
       return;
     }
     //let encodedPassword: string = btoa(this.password);

@@ -34,22 +34,22 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   }
 
   private static handleClientError(error: ErrorEvent): Observable<never> {
-    return throwError("Please try again.\n" + error);
+    return throwError('Please try again.\n' + error);
   }
 
   private static handleServerError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = "";
+    let errorMessage = '';
     if(error.status === 0) {
-      errorMessage = "Please try again.";
+      errorMessage = 'Please try again.';
     }
     if(error.status === 400) {
       errorMessage = error.error.message;
     }
     if(error.status === 401) {
-      errorMessage = "Your credentials were incorrect.";
+      errorMessage = 'Your credentials were incorrect.';
     }
     if(error.status === 403) {
-      errorMessage = "You are not authorised to do this operation.";
+      errorMessage = 'You are not authorised to do this operation.';
     }
     return throwError(errorMessage);
   }

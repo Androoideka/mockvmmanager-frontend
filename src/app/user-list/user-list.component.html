@@ -21,14 +21,17 @@
   <tbody>
     <tr *ngFor="let user of users">
       <td *ngIf="can_delete">
-        <a (click)="deleteUser(user)" [routerLink]="'/list'">Delete</a>
+        <button (click)="deleteUser(user)" [routerLink]="'/list'" type="button" class="btn btn-danger">X</button>
       </td>
       <td> {{ user.name }} </td>
       <td> {{ user.surname }} </td>
       <td>
-        <a>
+        <a *ngIf="can_update" [routerLink]="'/edit'" [queryParams]="{id: user.userId}">
           {{ user.email }}
         </a>
+        <span *ngIf="!can_update">
+          {{ user.email }}
+        </span>
       </td>
       <td> {{ user.permissionList.shortDisplay }} </td>
     </tr>

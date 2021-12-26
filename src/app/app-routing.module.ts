@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "./login/login.component";
 import {AddUserComponent} from "./add-user/add-user.component";
 import {UserListComponent} from "./user-list/user-list.component";
+import {CreateGuard} from "./create.guard";
+import {ReadGuard} from "./read.guard";
+import {EditUserComponent} from "./edit-user/edit-user.component";
+import {EditGuard} from "./edit.guard";
 
 const routes: Routes = [
   {
@@ -11,16 +15,24 @@ const routes: Routes = [
   },
   {
     path: "create",
-    component: AddUserComponent
+    component: AddUserComponent,
+    canActivate: [CreateGuard]
   },
   {
     path: "list",
-    component: UserListComponent
+    component: UserListComponent,
+    canActivate: [ReadGuard]
+  },
+  {
+    path: 'edit',
+    component: EditUserComponent,
+    canActivate: [EditGuard]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [CreateGuard, ReadGuard, EditGuard]
 })
 export class AppRoutingModule { }

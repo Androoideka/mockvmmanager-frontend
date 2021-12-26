@@ -1,3 +1,5 @@
+import {AuthenticationResponse, PermissionListResponse, UserResponse} from "./user-dto";
+
 export var PERMISSION_REPRESENTATIONS: string[] = [
   'can_create_users',
   'can_read_users',
@@ -12,20 +14,21 @@ export var PERMISSION_SHORT_VALUES: string[] = [
   'd'
 ]
 
-export interface UserResponse {
-  userId: number,
-  email: string,
-  password: string,
-  name: string,
-  surname: string,
-  permissionListResponse: PermissionListResponse
-}
-
-export interface PermissionListResponse {
-  permissionValues: boolean[];
-}
-
 export class User {
+  static fromLocalStorage(): User {
+    const userId: string = localStorage.getItem('userId') ?? '';
+    const email: string = localStorage.getItem('email') ?? '';
+    const name: string = localStorage.getItem('name') ?? '';
+    const surname: string = localStorage.getItem('surname') ?? '';
+    const can_read_users: boolean = localStorage.getItem('can_read_users') === 'true';
+    const can_create_users: boolean = localStorage.getItem('can_create_users') === 'true';
+    const can_update_users: boolean = localStorage.getItem('can_update_users') === 'true';
+    const can_delete_users: boolean = localStorage.getItem('can_delete_users') === 'true';
+    const permissionList = PermissionList.fromValues(can_read_users, can_create_users, can_update_users, can_delete_users);
+    return new User(Number(userId), email, '', name, surname, permissionList);
+  }
+
+
   static fromResponse(userResponse: UserResponse): User {
     const permissionList = PermissionList.fromResponse(userResponse.permissionListResponse);
     return new User(userResponse.userId, userResponse.email, userResponse.password, userResponse.name, userResponse.surname, permissionList);
@@ -37,6 +40,17 @@ export class User {
               public name: string,
               public surname: string,
               public permissionList: PermissionList) {
+  }
+
+  toLocalStorage(): void {
+    localStorage.setItem('userId', String(this.userId));
+    localStorage.setItem('email', this.email);
+    localStorage.setItem('name', this.name);
+    localStorage.setItem('surname', this.surname);
+    localStorage.setItem('can_read_users', String(this.permissionList.can_read_users));
+    localStorage.setItem('can_create_users', String(this.permissionList.can_create_users));
+    localStorage.setItem('can_update_users', String(this.permissionList.can_update_users));
+    localStorage.setItem('can_delete_users', String(this.permissionList.can_delete_users));
   }
 }
 
@@ -104,9 +118,28 @@ export class PermissionList {
   }
 }
 
-export interface UserPageResponse {
-  content: UserResponse[],
-  totalPages: number;
+export class Authentication {
+  static fromLocalStorage(): Authentication {
+    const token: string = localStorage.getItem('token') ?? '';
+    const user: User = User.fromLocalStorage();
+    return new Authentication(!!token, token, user);
+  }
+
+  static fromResponse(authenticationResponse: AuthenticationResponse) {
+    return new Authentication(true,
+      authenticationResponse.token,
+      User.fromResponse(authenticationResponse.userResponse));
+  }
+
+  constructor(public authenticated: boolean,
+              public token: string,
+              public user: User) {
+  }
+
+  toLocalStorage(): void {
+    localStorage.setItem('token', this.token);
+    this.user.toLocalStorage();
+  }
 }
 
 export interface UserPage {
