@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   get identifier(): string {
-    return this.authenticationService.getIdentifier();
+    return this.authenticationService.getIdentifier;
   }
 
   authenticate(): void {

@@ -15,10 +15,10 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   constructor(private authenticationService: AuthenticationService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if(this.authenticationService.isAuthenticated()) {
+    if(this.authenticationService.isAuthenticated) {
       request = request.clone({
         setHeaders: {
-          Authorization: 'Bearer ' + this.authenticationService.getToken()
+          Authorization: 'Bearer ' + this.authenticationService.getToken
         }
       });
     }

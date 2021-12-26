@@ -13,6 +13,7 @@ export var PERMISSION_SHORT_VALUES: string[] = [
 ]
 
 export interface UserResponse {
+  userId: number,
   email: string,
   password: string,
   name: string,
@@ -27,10 +28,11 @@ export interface PermissionListResponse {
 export class User {
   static fromResponse(userResponse: UserResponse): User {
     const permissionList = PermissionList.fromResponse(userResponse.permissionListResponse);
-    return new User(userResponse.email, userResponse.password, userResponse.name, userResponse.surname, permissionList);
+    return new User(userResponse.userId, userResponse.email, userResponse.password, userResponse.name, userResponse.surname, permissionList);
   }
 
-  constructor(public email: string,
+  constructor(public userId: number,
+              public email: string,
               public password: string,
               public name: string,
               public surname: string,

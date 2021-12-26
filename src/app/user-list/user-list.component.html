@@ -1,6 +1,9 @@
 <table class="table text-center">
   <thead>
     <tr>
+      <th *ngIf="can_delete" scope="col">
+        Delete
+      </th>
       <th scope="col">
         First name
       </th>
@@ -17,9 +20,16 @@
   </thead>
   <tbody>
     <tr *ngFor="let user of users">
+      <td *ngIf="can_delete">
+        <a (click)="deleteUser(user)" [routerLink]="'/list'">Delete</a>
+      </td>
       <td> {{ user.name }} </td>
       <td> {{ user.surname }} </td>
-      <td> {{ user.email }} </td>
+      <td>
+        <a>
+          {{ user.email }}
+        </a>
+      </td>
       <td> {{ user.permissionList.shortDisplay }} </td>
     </tr>
   </tbody>

@@ -13,11 +13,14 @@ export class CrudService {
   private userUrl: string = "/user";
   private createUrl: string = "/create";
   private listUrl: string = "/list";
+  private editUrl: string = "/edit";
+  private deleteUrl: string = "/delete";
 
   constructor(private httpClient: HttpClient) { }
 
   createUser(user: User): Observable<null> {
-    return this.httpClient.post<null>(this.apiUrl + this.userUrl + this.createUrl, user);
+    const url = this.apiUrl + this.userUrl + this.createUrl;
+    return this.httpClient.post<null>(url, user);
   }
 
   listUsers(page: number): Observable<UserPage> {
@@ -38,4 +41,15 @@ export class CrudService {
       return userPage;
     }));
   }
+
+  editUser(user: User, newUser: User): Observable<null> {
+    let url = this.apiUrl + this.userUrl + this.editUrl + '/' + user.userId;
+    return this.httpClient.put<null>(url, newUser);
+  }
+
+  deleteUser(user: User): Observable<null> {
+    const url = this.apiUrl + this.userUrl + this.deleteUrl + '/' + user.userId;
+    return this.httpClient.delete<null>(url);
+  }
+
 }

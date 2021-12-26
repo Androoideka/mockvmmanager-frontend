@@ -13,11 +13,11 @@ export class AppComponent {
   }
 
   get isAuthenticated() {
-    return this.authenticationService.isAuthenticated();
+    return this.authenticationService.isAuthenticated;
   }
 
   get identifier() {
-    return this.authenticationService.getIdentifier();
+    return this.authenticationService.getIdentifier;
   }
 
   logOut() {

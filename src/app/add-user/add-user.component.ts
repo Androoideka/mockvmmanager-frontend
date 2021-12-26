@@ -74,14 +74,7 @@ export class AddUserComponent implements OnInit {
     }
     //let encodedPassword: string = btoa(this.password);
     const permissionList: PermissionList = PermissionList.fromValues(this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users);
-    const user: User = {
-      email: this.email,
-      password: this.password,
-      name: this.name,
-      surname: this.surname,
-      permissionList: permissionList
-    }
-    console.log(user);
+    const user: User = new User(0, this.email, this.password, this.name, this.surname, permissionList)
     this.crudService.createUser(user).subscribe(
       (() => {
         this.created = true;
