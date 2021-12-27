@@ -45,9 +45,9 @@ export class AuthenticationService {
 
   logOut(): void {
     localStorage.clear();
-    this.authentication.authenticated = false;
     this.httpClient.get(this.apiUrl + this.logoutUrl).subscribe(() => {
       this.authentication = Authentication.fromLocalStorage();
     });
+    this.authentication.authenticated = false;
   }
 }

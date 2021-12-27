@@ -47,13 +47,16 @@ export class LoginComponent implements OnInit {
       email: this.email,
       password: this.password
     };
-    this.authenticationService.obtainAuthentication(login).subscribe((response => {
+    this.authenticationService.obtainAuthentication(login).subscribe(
+      (response => {
       this.welcome = true;
       if(!response.user.permissionList.can_read_users && !response.user.permissionList.can_create_users
         && !response.user.permissionList.can_update_users && !response.user.permissionList.can_delete_users) {
         alert('You do not have any permissions.')
-      }
-    }));
+      }}),
+      (error => {
+        alert(error);
+      }));
   }
 
 }

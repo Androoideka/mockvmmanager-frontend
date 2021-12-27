@@ -83,7 +83,7 @@ export class EditUserComponent implements OnInit {
     }
     this.route.queryParams
       .subscribe(params => {
-        const permissionList = new PermissionList([this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users]);
+        const permissionList = new PermissionList([this.can_create_users, this.can_read_users, this.can_update_users, this.can_delete_users]);
         const newUser = new User(params.id, this.email, '', this.name, this.surname, permissionList);
         this.crudService.editUser(params.id, newUser).subscribe(
           (() => {

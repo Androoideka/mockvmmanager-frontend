@@ -20,8 +20,8 @@ export class AppComponent {
     return this.authenticationService.getIdentifier;
   }
 
-  get can_read_users() {
-    return this.authenticationService.getPermissions.can_read_users;
+  get can_create_users() {
+    return this.authenticationService.getPermissions.can_create_users;
   }
 
   logOut() {
