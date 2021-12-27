@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AuthenticationService} from "./services/authentication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import {AuthenticationService} from "./services/authentication.service";
 export class AppComponent {
   title = 'domaci3fe-agasic218rn';
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router) {
   }
 
   get isAuthenticated() {
@@ -26,5 +28,6 @@ export class AppComponent {
 
   logOut() {
     this.authenticationService.logOut();
+    this.router.navigate(['']);
   }
 }
