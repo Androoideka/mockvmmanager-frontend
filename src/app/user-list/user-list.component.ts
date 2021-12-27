@@ -11,11 +11,13 @@ import {AuthenticationService} from "../services/authentication.service";
 export class UserListComponent implements OnInit {
 
   users: User[] = [];
-  page: number = 0;
+  current_page: number = 0;
+  total_pages: number = 0;
+  private page_numbers_array: number[] = [];
 
   constructor(private authenticationService: AuthenticationService,
               private crudService: CrudService) {
-    this.nextPage();
+    this.selectPage(this.current_page);
   }
 
   ngOnInit(): void {
@@ -29,6 +31,10 @@ export class UserListComponent implements OnInit {
     return this.authenticationService.getPermissions.can_delete_users;
   }
 
+  get page_numbers(): number[] {
+    return this.page_numbers_array;
+  }
+
   deleteUser(user: User): void {
     this.crudService.deleteUser(user).subscribe(() => {
       const index: number = this.users.indexOf(user, 0);
@@ -39,15 +45,21 @@ export class UserListComponent implements OnInit {
   selectPage(page: number): void {
     this.crudService.listUsers(page).subscribe((response => {
       this.users = response.content;
-      this.page = page + 1;
+      this.total_pages = response.totalPages;
+      this.page_numbers_array = [];
+      for(let i = 0; i < this.total_pages; i++) {
+        this.page_numbers_array.push(i);
+      }
+      this.current_page = page;
     }));
   }
 
   nextPage(): void {
-    this.crudService.listUsers(this.page).subscribe((response => {
-      this.users = response.content;
-      this.page += 1;
-    }));
+    this.selectPage(this.current_page + 1);
+  }
+
+  prevPage(): void {
+    this.selectPage(this.current_page - 1);
   }
 
 }
