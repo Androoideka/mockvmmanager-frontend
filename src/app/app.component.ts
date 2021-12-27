@@ -14,16 +14,16 @@ export class AppComponent {
               private router: Router) {
   }
 
-  get isAuthenticated() {
-    return this.authenticationService.isAuthenticated;
+  get authenticated() {
+    return this.authenticationService.authenticated;
   }
 
   get identifier() {
-    return this.authenticationService.getIdentifier;
+    return this.authenticationService.identifier;
   }
 
   get can_create_users() {
-    return this.authenticationService.getPermissions.can_create_users;
+    return this.authenticationService.can_create_users;
   }
 
   logOut() {

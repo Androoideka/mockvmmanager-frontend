@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {AuthenticationResponse, LoginRequest} from "../interfaces/user-dto";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
-import {Authentication, PermissionList} from "../interfaces/user-model";
+import {Authentication, User} from "../interfaces/user-model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,20 +19,44 @@ export class AuthenticationService {
     this.authentication = Authentication.fromLocalStorage();
   }
 
-  get isAuthenticated(): boolean {
+  get authenticated(): boolean {
     return this.authentication.authenticated;
   }
 
-  get getToken(): string {
+  get token(): string {
     return this.authentication.token;
   }
 
-  get getIdentifier(): string {
+  get identifier(): string {
     return this.authentication.user.name + ' ' + this.authentication.user.surname;
   }
 
-  get getPermissions(): PermissionList {
-    return this.authentication.user.permissionList;
+  get id(): number {
+    return this.authentication.user.userId;
+  }
+
+  get can_read_users(): boolean {
+    return this.authentication.authenticated && this.authentication.user.permissionList.can_read_users;
+  }
+
+  get can_create_users(): boolean {
+    return this.authentication.authenticated && this.authentication.user.permissionList.can_create_users;
+  }
+
+  get can_update_users(): boolean {
+    return this.authentication.authenticated && this.authentication.user.permissionList.can_update_users;
+  }
+
+  get can_delete_users(): boolean {
+    return this.authentication.authenticated && this.authentication.user.permissionList.can_delete_users;
+  }
+
+  get no_permission(): boolean {
+    return this.authentication.user.permissionList.no_permission;
+  }
+
+  set user(user: User) {
+    this.authentication.user = user;
   }
 
   obtainAuthentication(login: LoginRequest): Observable<Authentication> {

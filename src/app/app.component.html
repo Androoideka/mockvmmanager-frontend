@@ -3,11 +3,11 @@
     <a [routerLink]="'/'" class="navbar-brand">Domaci 3</a>
     <div class="navbar-nav me-auto">
       <a [routerLink]="'/list'" class="nav-link">User List</a>
-      <a *ngIf="isAuthenticated && can_create_users" [routerLink]="'/create'" class="nav-link">Create User</a>
+      <a *ngIf="authenticated && can_create_users" [routerLink]="'/create'" class="nav-link">Create User</a>
     </div>
-    <a *ngIf="!isAuthenticated" [routerLink]="'/login'" class="nav-link">Sign in</a>
-    <span *ngIf="isAuthenticated">Welcome, {{ identifier }}!</span>
-    <a *ngIf="isAuthenticated" (click)="logOut()" class="nav-link">Log out</a>
+    <a *ngIf="!authenticated" [routerLink]="'/login'" class="nav-link">Sign in</a>
+    <span *ngIf="authenticated">Welcome, {{ identifier }}!</span>
+    <a *ngIf="authenticated" (click)="logOut()" class="nav-link">Log out</a>
   </div>
 </nav>
 <div class="container-fluid">

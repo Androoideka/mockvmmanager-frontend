@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {User, UserPage} from "../interfaces/user-model";
 import {UserPageResponse, UserResponse} from "../interfaces/user-dto";
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,22 +18,23 @@ export class CrudService {
   private editUrl: string = '/edit';
   private deleteUrl: string = '/delete';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+              private authenticationService: AuthenticationService) { }
 
   createUser(user: User): Observable<null> {
-    const url = this.apiUrl + this.userUrl + this.createUrl;
+    const url: string = this.apiUrl + this.userUrl + this.createUrl;
     return this.httpClient.post<null>(url, user);
   }
 
   showUser(userId: number): Observable<User> {
-    const url = this.apiUrl + this.userUrl + '/' + userId;
+    const url: string = this.apiUrl + this.userUrl + '/' + userId;
     return this.httpClient.get<UserResponse>(url).pipe<User>(map(response => {
       return User.fromResponse(response);
     }));
   }
 
   listUsers(page: number): Observable<UserPage> {
-    let url = this.apiUrl + this.userUrl + this.listUrl;
+    let url: string = this.apiUrl + this.userUrl + this.listUrl;
     if(page !== 0) {
       url += '?page=' + page;
     }
@@ -51,13 +53,23 @@ export class CrudService {
   }
 
   editUser(userId: number, newUser: User): Observable<null> {
-    let url = this.apiUrl + this.userUrl + this.editUrl + '/' + userId;
-    return this.httpClient.put<null>(url, newUser);
+    const url: string = this.apiUrl + this.userUrl + this.editUrl + '/' + userId;
+    return this.httpClient.put<null>(url, newUser).pipe(map(response => {
+      if(this.authenticationService.id == userId) {
+        this.authenticationService.user = newUser;
+      }
+      return response;
+    }));
   }
 
   deleteUser(user: User): Observable<null> {
-    const url = this.apiUrl + this.userUrl + this.deleteUrl + '/' + user.userId;
-    return this.httpClient.delete<null>(url);
+    const url: string = this.apiUrl + this.userUrl + this.deleteUrl + '/' + user.userId;
+    return this.httpClient.delete<null>(url).pipe(map(response => {
+      if(this.authenticationService.id == user.userId) {
+        this.authenticationService.logOut();
+      }
+      return response;
+    }));
   }
 
 }

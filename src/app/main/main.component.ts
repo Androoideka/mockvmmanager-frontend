@@ -11,32 +11,32 @@ export class MainComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService) {
   }
 
-  get isAuthenticated() {
-    return this.authenticationService.isAuthenticated;
+  get authenticated() {
+    return this.authenticationService.authenticated;
   }
 
   get identifier() {
-    return this.authenticationService.getIdentifier;
+    return this.authenticationService.identifier;
   }
 
   get can_read_users() {
-    return this.authenticationService.getPermissions.can_read_users;
+    return this.authenticationService.can_read_users;
   }
 
   get can_create_users() {
-    return this.authenticationService.getPermissions.can_create_users;
+    return this.authenticationService.can_create_users;
   }
 
   get can_update_users() {
-    return this.authenticationService.getPermissions.can_update_users;
+    return this.authenticationService.can_update_users;
   }
 
   get can_delete_users() {
-    return this.authenticationService.getPermissions.can_delete_users;
+    return this.authenticationService.can_delete_users;
   }
 
   get no_permission() {
-    return this.authenticationService.getPermissions.no_permission;
+    return this.authenticationService.no_permission;
   }
 
   ngOnInit(): void {

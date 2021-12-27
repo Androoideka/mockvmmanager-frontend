@@ -1,10 +1,10 @@
 <div class="row text-center">
   <div class="col-12">
     <h1>
-      <span *ngIf="!isAuthenticated">
+      <span *ngIf="!authenticated">
         You are not currently logged in.
       </span>
-      <span *ngIf="isAuthenticated">
+      <span *ngIf="authenticated">
         Hello! You are logged in as {{ identifier }}.
       </span>
     </h1>
@@ -12,12 +12,12 @@
 </div>
 <div class="row text-center">
   <div class="col-12">
-    <span *ngIf="!isAuthenticated">
+    <span *ngIf="!authenticated">
       We recommend
       <a [routerLink]="'/login'">logging in</a>
       so you can access other features on this site.
     </span>
-    <div *ngIf="isAuthenticated && !no_permission">
+    <div *ngIf="authenticated && !no_permission">
       Currently you have the permission to:
       <ul class="list-inline">
         <li *ngIf="can_read_users">
@@ -34,7 +34,7 @@
         </li>
       </ul>
     </div>
-    <span *ngIf="isAuthenticated && no_permission">
+    <span *ngIf="authenticated && no_permission">
       You don't have any permissions at the moment. Please ask someone to grant you them.
     </span>
   </div>

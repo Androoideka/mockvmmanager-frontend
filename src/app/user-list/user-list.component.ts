@@ -13,7 +13,7 @@ export class UserListComponent implements OnInit {
   users: User[] = [];
   current_page: number = 0;
   total_pages: number = 0;
-  private page_numbers_array: number[] = [];
+  page_numbers: number[] = [];
 
   constructor(private authenticationService: AuthenticationService,
               private crudService: CrudService) {
@@ -24,15 +24,11 @@ export class UserListComponent implements OnInit {
   }
 
   get can_update(): boolean {
-    return this.authenticationService.getPermissions.can_update_users;
+    return this.authenticationService.can_update_users;
   }
 
   get can_delete(): boolean {
-    return this.authenticationService.getPermissions.can_delete_users;
-  }
-
-  get page_numbers(): number[] {
-    return this.page_numbers_array;
+    return this.authenticationService.can_delete_users;
   }
 
   deleteUser(user: User): void {
@@ -46,9 +42,9 @@ export class UserListComponent implements OnInit {
     this.crudService.listUsers(page).subscribe((response => {
       this.users = response.content;
       this.total_pages = response.totalPages;
-      this.page_numbers_array = [];
+      this.page_numbers = [];
       for(let i = 0; i < this.total_pages; i++) {
-        this.page_numbers_array.push(i);
+        this.page_numbers.push(i);
       }
       this.current_page = page;
     }));

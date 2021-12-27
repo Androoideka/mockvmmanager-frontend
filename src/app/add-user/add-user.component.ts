@@ -14,7 +14,8 @@ export class AddUserComponent implements OnInit {
   created: boolean;
   username: string;
 
-  constructor(private crudService: CrudService, private formBuilder: FormBuilder) {
+  constructor(private crudService: CrudService,
+              private formBuilder: FormBuilder) {
     this.formGroup = new FormGroup({
     });
     this.created = false;
