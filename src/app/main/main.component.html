@@ -1,0 +1,41 @@
+<div class="row text-center">
+  <div class="col-12">
+    <h1>
+      <span *ngIf="!isAuthenticated">
+        You are not currently logged in.
+      </span>
+      <span *ngIf="isAuthenticated">
+        Hello! You are logged in as {{ identifier }}.
+      </span>
+    </h1>
+  </div>
+</div>
+<div class="row text-center">
+  <div class="col-12">
+    <span *ngIf="!isAuthenticated">
+      We recommend
+      <a [routerLink]="'/login'">logging in</a>
+      so you can access other features on this site.
+    </span>
+    <div *ngIf="isAuthenticated && !no_permission">
+      Currently you have the permission to:
+      <ul class="list-inline">
+        <li *ngIf="can_read_users">
+          Read users
+        </li>
+        <li *ngIf="can_create_users">
+          Create users
+        </li>
+        <li *ngIf="can_update_users">
+          Update users
+        </li>
+        <li *ngIf="can_delete_users">
+          Delete users
+        </li>
+      </ul>
+    </div>
+    <span *ngIf="isAuthenticated && no_permission">
+      You don't have any permissions at the moment. Please ask someone to grant you them.
+    </span>
+  </div>
+</div>

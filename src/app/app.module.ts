@@ -10,6 +10,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthenticationInterceptor} from "./services/authentication.interceptor";
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {AuthenticationInterceptor} from "./services/authentication.interceptor";
     LoginComponent,
     UserListComponent,
     AddUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    MainComponent
   ],
     imports: [
         BrowserModule,

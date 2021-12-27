@@ -17,7 +17,7 @@ export class EditGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if(!this.authenticationService.isAuthenticated || !this.authenticationService.getPermissions.can_update_users) {
       window.alert('You do not have the can_update_users permission.');
-      this.router.navigate(['login']);
+      this.router.navigate(['']);
       return false;
     }
     return true;

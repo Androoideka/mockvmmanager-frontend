@@ -50,8 +50,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.obtainAuthentication(login).subscribe(
       (response => {
       this.welcome = true;
-      if(!response.user.permissionList.can_read_users && !response.user.permissionList.can_create_users
-        && !response.user.permissionList.can_update_users && !response.user.permissionList.can_delete_users) {
+      if(response.user.permissionList.no_permission) {
         alert('You do not have any permissions.')
       }}),
       (error => {

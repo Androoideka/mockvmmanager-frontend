@@ -7,8 +7,13 @@ import {CreateGuard} from "./create.guard";
 import {ReadGuard} from "./read.guard";
 import {EditUserComponent} from "./edit-user/edit-user.component";
 import {EditGuard} from "./edit.guard";
+import {MainComponent} from "./main/main.component";
 
 const routes: Routes = [
+  {
+    path: '',
+    component: MainComponent
+  },
   {
     path: "login",
     component: LoginComponent

@@ -89,6 +89,13 @@ export class PermissionList {
     return this.permissionValues[3];
   }
 
+  get no_permission(): boolean {
+    for (let permission of this.permissionValues) {
+      if(permission) return false;
+    }
+    return true;
+  }
+
   set can_read_users(value: boolean) {
     this.permissionValues[1] = value;
   }
