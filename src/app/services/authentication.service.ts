@@ -57,6 +57,7 @@ export class AuthenticationService {
 
   set user(user: User) {
     this.authentication.user = user;
+    this.authentication.toLocalStorage();
   }
 
   obtainAuthentication(login: LoginRequest): Observable<Authentication> {
