@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {AuthenticationService} from "./services/authentication.service";
 import {Router} from "@angular/router";
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'domaci3fe-agasic218rn';
+  title = 'nwpprojekatfe-agasic218rn';
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router) {
@@ -23,11 +23,11 @@ export class AppComponent {
   }
 
   get can_create_users() {
-    return this.authenticationService.can_create_users;
+    return this.authenticationService.permissions.can_create_users;
   }
 
   logOut() {
     this.authenticationService.logOut();
-    this.router.navigate(['']);
+    this.router.navigate(['']).then(() => {});
   }
 }

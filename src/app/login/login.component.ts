@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from "../services/authentication.service";
-import {LoginRequest} from "../interfaces/user-dto";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AuthenticationService} from "../services/authentication.service";
+import {LoginRequest} from "../model/user-dto";
+import {Observer} from "rxjs";
+import {Authentication} from "../model/user-model";
 
 @Component({
   selector: 'app-login',
@@ -12,11 +14,23 @@ export class LoginComponent implements OnInit {
 
   formGroup: FormGroup;
   welcome: boolean;
+  private readonly authObserver: Observer<Authentication>;
 
-  constructor(private authenticationService: AuthenticationService, private formBuilder: FormBuilder) {
-    this.formGroup = new FormGroup({
-    });
+  constructor(private formBuilder: FormBuilder,
+              private authenticationService: AuthenticationService) {
+    this.formGroup = new FormGroup({});
     this.welcome = false;
+    this.authObserver = {
+      next: response => {
+        this.welcome = true;
+        if (response.user.permissionList.no_permission) {
+          alert('You do not have any permissions.');
+        }
+      },
+      error: err => alert(err),
+      complete: () => {
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -47,15 +61,8 @@ export class LoginComponent implements OnInit {
       email: this.email,
       password: this.password
     };
-    this.authenticationService.obtainAuthentication(login).subscribe(
-      (response => {
-      this.welcome = true;
-      if(response.user.permissionList.no_permission) {
-        alert('You do not have any permissions.')
-      }}),
-      (error => {
-        alert(error);
-      }));
+
+    this.authenticationService.obtainAuthentication(login).subscribe(this.authObserver);
   }
 
 }

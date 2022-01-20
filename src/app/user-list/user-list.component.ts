@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../interfaces/user-model";
-import {CrudService} from "../services/crud.service";
 import {AuthenticationService} from "../services/authentication.service";
+import {CrudService} from "../services/crud.service";
+import {User, UserPage} from "../model/user-model";
+import {Observer} from "rxjs";
 
 @Component({
   selector: 'app-user-list',
@@ -24,30 +25,28 @@ export class UserListComponent implements OnInit {
   }
 
   get can_update(): boolean {
-    return this.authenticationService.can_update_users;
+    return this.authenticationService.permissions.can_update_users;
   }
 
   get can_delete(): boolean {
-    return this.authenticationService.can_delete_users;
-  }
-
-  deleteUser(user: User): void {
-    this.crudService.deleteUser(user).subscribe(() => {
-      const index: number = this.users.indexOf(user, 0);
-      this.users.splice(index, 1);
-    });
+    return this.authenticationService.permissions.can_delete_users;
   }
 
   selectPage(page: number): void {
-    this.crudService.listUsers(page).subscribe((response => {
-      this.users = response.content;
-      this.total_pages = response.totalPages;
-      this.page_numbers = [];
-      for(let i = 0; i < this.total_pages; i++) {
-        this.page_numbers.push(i);
-      }
-      this.current_page = page;
-    }));
+    const listObserver: Observer<UserPage> = {
+      next: response => {
+        this.users = response.content;
+        this.total_pages = response.totalPages;
+        this.page_numbers = [];
+        for(let i = 0; i < this.total_pages; i++) {
+          this.page_numbers.push(i);
+        }
+        this.current_page = page;
+      },
+      error: err => alert(err),
+      complete: () => {}
+    }
+    this.crudService.listUsers(page).subscribe(listObserver);
   }
 
   nextPage(): void {
@@ -56,6 +55,18 @@ export class UserListComponent implements OnInit {
 
   prevPage(): void {
     this.selectPage(this.current_page - 1);
+  }
+
+  deleteUser(user: User): void {
+    const deleteObserver: Observer<void> = {
+      next: () => {},
+      error: err => alert(err),
+      complete: () => {
+        const index: number = this.users.indexOf(user, 0);
+        this.users.splice(index, 1);
+      }
+    }
+    this.crudService.deleteUser(user).subscribe(deleteObserver);
   }
 
 }

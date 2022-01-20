@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CrudService} from "../services/crud.service";
-import {PermissionList, User} from "../interfaces/user-model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {CrudService} from "../services/crud.service";
+import {User} from "../model/user-model";
+import {Observer} from "rxjs";
 
 @Component({
   selector: 'app-edit-user',
@@ -12,31 +13,31 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class EditUserComponent implements OnInit {
 
   formGroup: FormGroup;
+  private id: number;
 
-  constructor(private crudService: CrudService,
-              private formBuilder: FormBuilder,
+  constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
-              private router: Router) {
-    this.formGroup = new FormGroup({
-    });
-    this.route.queryParams
-      .subscribe(params => {
-        this.crudService.showUser(params.id).subscribe(response => {
-          this.formGroup.patchValue({
-            email_input: response.email,
-            name_input: response.name,
-            surname_input: response.surname,
-            can_read_users: response.permissionList.can_read_users,
-            can_create_users: response.permissionList.can_create_users,
-            can_update_users: response.permissionList.can_update_users,
-            can_delete_users: response.permissionList.can_delete_users
-          })
+              private router: Router,
+              private crudService: CrudService) {
+    this.formGroup = new FormGroup({});
+    this.id = -1;
+    this.route.queryParams.subscribe(params => {
+      this.id = params['id'];
+      this.crudService.viewUser(this.id).subscribe(response => {
+        this.formGroup.patchValue({
+          email_input: response.email,
+          name_input: response.name,
+          surname_input: response.surname,
+          can_read_users: response.permissionList.can_read_users,
+          can_create_users: response.permissionList.can_create_users,
+          can_update_users: response.permissionList.can_update_users,
+          can_delete_users: response.permissionList.can_delete_users
         });
-      });
+      })
+    })
   }
 
   ngOnInit(): void {
-
     this.formGroup = this.formBuilder.group({
       email_input: ['', Validators.email],
       name_input: ['', Validators.required],
@@ -77,23 +78,25 @@ export class EditUserComponent implements OnInit {
   }
 
   editUser(): void {
-    if(!this.formGroup.valid) {
+    if(this.id === -1) {
+      alert('Please wait until we fetch needed information.');
+      return;
+    }
+    if (!this.formGroup.valid) {
       alert('Please fill in the fields correctly.');
       return;
     }
-    this.route.queryParams
-      .subscribe(params => {
-        const permissionList = new PermissionList([this.can_create_users, this.can_read_users, this.can_update_users, this.can_delete_users]);
-        const newUser = new User(params.id, this.email, '', this.name, this.surname, permissionList);
-        this.crudService.editUser(params.id, newUser).subscribe(
-          (() => {
-            this.router.navigate(['list']);
-          }),
-          (error => {
-            alert(error);
-          })
-        );
-      });
+    const newUser = User.fromTemplate(this.id, this.email, '', this.name, this.surname,
+      this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users);
+    const editObserver: Observer<void> = {
+      next: () => {
+      },
+      error: err => alert(err),
+      complete: () => {
+        this.router.navigate(['list']).then(() => {
+        });
+      }
+    }
+    this.crudService.editUser(newUser.userId, newUser).subscribe(editObserver);
   }
-
 }

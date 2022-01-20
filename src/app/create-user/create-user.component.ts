@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CrudService} from "../services/crud.service";
-import {PermissionList, User} from "../interfaces/user-model";
+import {User} from "../model/user-model";
+import {Observer} from "rxjs";
 
 @Component({
-  selector: 'app-add-user',
-  templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css']
+  selector: 'app-create-user',
+  templateUrl: './create-user.component.html',
+  styleUrls: ['./create-user.component.css']
 })
-export class AddUserComponent implements OnInit {
+export class CreateUserComponent implements OnInit {
 
   formGroup: FormGroup;
   created: boolean;
   username: string;
 
-  constructor(private crudService: CrudService,
-              private formBuilder: FormBuilder) {
-    this.formGroup = new FormGroup({
-    });
+  constructor(private formBuilder: FormBuilder,
+              private crudService: CrudService) {
+    this.formGroup = new FormGroup({});
     this.created = false;
     this.username = "";
   }
@@ -74,17 +74,18 @@ export class AddUserComponent implements OnInit {
       return;
     }
     //let encodedPassword: string = btoa(this.password);
-    const permissionList: PermissionList = PermissionList.fromValues(this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users);
-    const user: User = new User(0, this.email, this.password, this.name, this.surname, permissionList)
-    this.crudService.createUser(user).subscribe(
-      (() => {
+    const user: User = User.fromTemplate(0, this.email, this.password, this.name, this.surname,
+      this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users);
+    const createObserver: Observer<void> = {
+      next: () => {
+      },
+      error: err => alert(err),
+      complete: () => {
         this.created = true;
-        this.username = user.email;
-      }),
-      (error => {
-        alert(error);
-      })
-    );
+        this.username = this.email;
+      }
+    }
+    this.crudService.createUser(user).subscribe(createObserver);
   }
 
 }

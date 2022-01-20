@@ -5,10 +5,9 @@ import {
   HttpEvent,
   HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {AuthenticationService} from "./authentication.service";
-import {catchError} from "rxjs/operators";
+import {catchError, Observable, throwError} from 'rxjs';
 import {Router} from "@angular/router";
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
@@ -30,13 +29,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         if(error instanceof HttpErrorResponse) {
           return this.handleServerError(error);
         }
-        return AuthenticationInterceptor.handleClientError(error);
+        return throwError(() => 'Please try again.\n' + error);
       })
     ));
-  }
-
-  private static handleClientError(error: ErrorEvent): Observable<never> {
-    return throwError('Please try again.\n' + error);
   }
 
   private handleServerError(error: HttpErrorResponse): Observable<never> {
@@ -54,6 +49,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       errorMessage = 'You are not authorised to do this operation.';
       this.router.navigate(['']);
     }
-    return throwError(errorMessage);
+    return throwError(() => errorMessage);
   }
 }

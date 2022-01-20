@@ -1,5 +1,7 @@
 import {AuthenticationResponse, PermissionListResponse, UserResponse} from "./user-dto";
 
+export var POSSIBLE_PERMISSIONS: number = 4;
+
 export var PERMISSION_REPRESENTATIONS: string[] = [
   'can_create_users',
   'can_read_users',
@@ -34,6 +36,15 @@ export class User {
     return new User(userResponse.userId, userResponse.email, userResponse.password, userResponse.name, userResponse.surname, permissionList);
   }
 
+  static fromTemplate(userId: number, email: string, password: string, name: string, surname: string,
+                      can_read_users: boolean,
+                      can_create_users: boolean,
+                      can_update_users: boolean,
+                      can_delete_users: boolean): User {
+    const permissionList: PermissionList = PermissionList.fromValues(can_read_users, can_create_users, can_update_users, can_delete_users);
+    return new User(userId, email, password, name, surname, permissionList);
+  }
+
   constructor(public userId: number,
               public email: string,
               public password: string,
@@ -65,7 +76,15 @@ export class PermissionList {
                     can_create_users: boolean,
                     can_update_users: boolean,
                     can_delete_users: boolean): PermissionList {
-    const permissionValues = [can_create_users, can_read_users, can_update_users, can_delete_users];
+    const permissionValues: boolean[] = [can_create_users, can_read_users, can_update_users, can_delete_users];
+    return new PermissionList(permissionValues);
+  }
+
+  static fromRepresentations(representations: string[]) {
+    const permissionValues: boolean[] = new Array(POSSIBLE_PERMISSIONS).fill(false);
+    for(const representation of representations) {
+      permissionValues[PERMISSION_REPRESENTATIONS.indexOf(representation)] = true;
+    }
     return new PermissionList(permissionValues);
   }
 
@@ -122,6 +141,24 @@ export class PermissionList {
       }
     }
     return display;
+  }
+
+  get display(): string[] {
+    const display: string[] = [];
+    for(let i = 0; i < this.permissionValues.length; i++) {
+      if(this.permissionValues[i]) {
+        display.push(PERMISSION_REPRESENTATIONS[i]);
+      }
+    }
+    return display;
+  }
+
+  includes(permissionList: PermissionList): boolean {
+    for(let i = 0; i < permissionList.permissionValues.length; i++) {
+      if(permissionList.permissionValues[i] && !this.permissionValues[i])
+        return false;
+    }
+    return true;
   }
 }
 

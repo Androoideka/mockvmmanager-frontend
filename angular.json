@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "062dfa1c-fd8e-4db3-a715-c2d0db5abb96"
+    "analytics": "6647e07c-4cae-4392-a0ed-3f85b1389681"
   },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "domaci3fe-agasic218rn": {
+    "nwpprojekatfe-agasic218rn": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/domaci3fe-agasic218rn",
+            "outputPath": "dist/nwpprojekatfe-agasic218rn",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "domaci3fe-agasic218rn:build:production"
+              "browserTarget": "nwpprojekatfe-agasic218rn:build:production"
             },
             "development": {
-              "browserTarget": "domaci3fe-agasic218rn:build:development"
+              "browserTarget": "nwpprojekatfe-agasic218rn:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "domaci3fe-agasic218rn:build"
+            "browserTarget": "nwpprojekatfe-agasic218rn:build"
           }
         },
         "test": {
@@ -105,5 +105,5 @@
       }
     }
   },
-  "defaultProject": "domaci3fe-agasic218rn"
+  "defaultProject": "nwpprojekatfe-agasic218rn"
 }

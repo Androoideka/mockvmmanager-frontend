@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {HomeComponent} from "./home/home.component";
 import {LoginComponent} from "./login/login.component";
-import {AddUserComponent} from "./add-user/add-user.component";
+import {CreateUserComponent} from "./create-user/create-user.component";
 import {UserListComponent} from "./user-list/user-list.component";
-import {CreateGuard} from "./create.guard";
-import {ReadGuard} from "./read.guard";
 import {EditUserComponent} from "./edit-user/edit-user.component";
-import {EditGuard} from "./edit.guard";
-import {MainComponent} from "./main/main.component";
+import {AuthGuard} from "./auth.guard";
+import {PERMISSION_REPRESENTATIONS, PermissionList} from "./model/user-model";
 
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent
+    component: HomeComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "login",
@@ -20,24 +20,32 @@ const routes: Routes = [
   },
   {
     path: "create",
-    component: AddUserComponent,
-    canActivate: [CreateGuard]
+    component: CreateUserComponent,
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: PermissionList.fromRepresentations([PERMISSION_REPRESENTATIONS[0]])
+    }
   },
   {
     path: "list",
     component: UserListComponent,
-    canActivate: [ReadGuard]
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: PermissionList.fromRepresentations([PERMISSION_REPRESENTATIONS[1]])
+    }
   },
   {
     path: 'edit',
     component: EditUserComponent,
-    canActivate: [EditGuard]
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: PermissionList.fromRepresentations([PERMISSION_REPRESENTATIONS[2]])
+    }
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
-  providers: [CreateGuard, ReadGuard, EditGuard]
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

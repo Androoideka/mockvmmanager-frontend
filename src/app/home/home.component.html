@@ -18,19 +18,10 @@
       so you can access other features on this site.
     </span>
     <div *ngIf="authenticated && !no_permission">
-      Currently you have the permission to:
+      Currently you have these permissions:
       <ul class="list-inline">
-        <li *ngIf="can_read_users">
-          Read users
-        </li>
-        <li *ngIf="can_create_users">
-          Create users
-        </li>
-        <li *ngIf="can_update_users">
-          Update users
-        </li>
-        <li *ngIf="can_delete_users">
-          Delete users
+        <li *ngFor="let permission of permissions">
+          {{ permission }}
         </li>
       </ul>
     </div>
