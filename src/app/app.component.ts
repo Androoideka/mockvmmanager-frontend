@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import { AuthenticationService } from './services/authentication.service';
+import {PERMISSION_REPRESENTATIONS} from "./model/permission-model";
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class AppComponent {
   }
 
   get can_create_users() {
-    return this.authenticationService.permissions.can_create_users;
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[0]];
   }
 
   logOut() {

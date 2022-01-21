@@ -1,3 +1,5 @@
+import {PermissionListResponse} from "./permission-model";
+
 export interface UserResponse {
   userId: number,
   email: string,
@@ -5,10 +7,6 @@ export interface UserResponse {
   name: string,
   surname: string,
   permissionListResponse: PermissionListResponse
-}
-
-export interface PermissionListResponse {
-  permissionValues: boolean[];
 }
 
 export interface LoginRequest {

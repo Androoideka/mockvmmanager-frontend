@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CrudService} from "../services/crud.service";
 import {User} from "../model/user-model";
 import {Observer} from "rxjs";
+import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 
 @Component({
   selector: 'app-edit-user',
@@ -28,10 +29,10 @@ export class EditUserComponent implements OnInit {
           email_input: response.email,
           name_input: response.name,
           surname_input: response.surname,
-          can_read_users: response.permissionList.can_read_users,
-          can_create_users: response.permissionList.can_create_users,
-          can_update_users: response.permissionList.can_update_users,
-          can_delete_users: response.permissionList.can_delete_users
+          can_read_users: response.permissionList[PERMISSION_REPRESENTATIONS[1]],
+          can_create_users: response.permissionList[PERMISSION_REPRESENTATIONS[0]],
+          can_update_users: response.permissionList[PERMISSION_REPRESENTATIONS[2]],
+          can_delete_users: response.permissionList[PERMISSION_REPRESENTATIONS[3]]
         });
       })
     })

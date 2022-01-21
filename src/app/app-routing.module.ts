@@ -6,7 +6,7 @@ import {CreateUserComponent} from "./create-user/create-user.component";
 import {UserListComponent} from "./user-list/user-list.component";
 import {EditUserComponent} from "./edit-user/edit-user.component";
 import {AuthGuard} from "./auth.guard";
-import {PERMISSION_REPRESENTATIONS, PermissionList} from "./model/user-model";
+import {PERMISSION_REPRESENTATIONS, PermissionList} from "./model/permission-model";
 
 const routes: Routes = [
   {

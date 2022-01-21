@@ -3,6 +3,7 @@ import {AuthenticationService} from "../services/authentication.service";
 import {CrudService} from "../services/crud.service";
 import {User, UserPage} from "../model/user-model";
 import {Observer} from "rxjs";
+import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 
 @Component({
   selector: 'app-user-list',
@@ -25,11 +26,11 @@ export class UserListComponent implements OnInit {
   }
 
   get can_update(): boolean {
-    return this.authenticationService.permissions.can_update_users;
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[2]];
   }
 
   get can_delete(): boolean {
-    return this.authenticationService.permissions.can_delete_users;
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[3]];
   }
 
   selectPage(page: number): void {

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Authentication, PermissionList, User} from "../model/user-model";
+import {Authentication, User} from "../model/user-model";
 import {HttpClient} from "@angular/common/http";
 import {AuthenticationResponse, LoginRequest} from '../model/user-dto';
 import {map, Observable} from 'rxjs';
+import {PermissionCarrier} from "../model/permission-model";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class AuthenticationService {
     return this.authentication.user.userId;
   }
 
-  get permissions(): PermissionList {
+  get permissions(): PermissionCarrier {
     return this.authentication.user.permissionList;
   }
 
@@ -43,7 +44,7 @@ export class AuthenticationService {
     this.authentication.toLocalStorage();
   }
 
-  includes(permissionList: PermissionList) {
+  includes(permissionList: PermissionCarrier) {
     return this.authentication.user.permissionList.includes(permissionList);
   }
 
