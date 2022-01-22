@@ -70,31 +70,7 @@ export class PermissionList {
 
   constructor(permissionValues: boolean[]) {
     this.permissionValues = permissionValues;
-    /*for(let i = 0; i < PERMISSION_NUMBER; i++) {
-      Object.defineProperty(this, PERMISSION_REPRESENTATIONS[i], {
-        get: () => { return this.permissionValues[i]; },
-        set: (value: boolean) => {
-          this.permissionValues[i] = value;
-        }
-      });
-    }*/
   }
-
-  /*get can_read_users(): boolean {
-    return this.permissionValues[1];
-  }
-
-  get can_create_users(): boolean {
-    return this.permissionValues[0];
-  }
-
-  get can_update_users(): boolean {
-    return this.permissionValues[2];
-  }
-
-  get can_delete_users(): boolean {
-    return this.permissionValues[3];
-  }*/
 
   get no_permission(): boolean {
     for (let permission of this.permissionValues) {

@@ -11,6 +11,9 @@ import { HomeComponent } from './home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthenticationInterceptor} from "./services/authentication.interceptor";
+import { MachineListComponent } from './machine-list/machine-list.component';
+import { CreateMachineComponent } from './create-machine/create-machine.component';
+import { ErrorLogComponent } from './error-log/error-log.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import {AuthenticationInterceptor} from "./services/authentication.interceptor";
     EditUserComponent,
     LoginComponent,
     UserListComponent,
-    HomeComponent
+    HomeComponent,
+    MachineListComponent,
+    CreateMachineComponent,
+    ErrorLogComponent
   ],
   imports: [
     BrowserModule,

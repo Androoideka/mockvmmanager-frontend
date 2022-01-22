@@ -7,6 +7,9 @@ import {UserListComponent} from "./user-list/user-list.component";
 import {EditUserComponent} from "./edit-user/edit-user.component";
 import {AuthGuard} from "./auth.guard";
 import {PERMISSION_REPRESENTATIONS, PermissionList} from "./model/permission-model";
+import {CreateMachineComponent} from "./create-machine/create-machine.component";
+import {MachineListComponent} from "./machine-list/machine-list.component";
+import {ErrorLogComponent} from "./error-log/error-log.component";
 
 const routes: Routes = [
   {
@@ -41,6 +44,26 @@ const routes: Routes = [
     data: {
       requiredPermissions: PermissionList.fromRepresentations([PERMISSION_REPRESENTATIONS[2]])
     }
+  },
+  {
+    path: 'mcreate',
+    component: CreateMachineComponent,
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: PermissionList.fromRepresentations([PERMISSION_REPRESENTATIONS[8]])
+    }
+  },
+  {
+    path: 'mlist',
+    component: MachineListComponent,
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: PermissionList.fromRepresentations([PERMISSION_REPRESENTATIONS[4]])
+    }
+  },
+  {
+    path: 'errors',
+    component: ErrorLogComponent
   }
 ];
 
