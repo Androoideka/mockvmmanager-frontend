@@ -32,7 +32,7 @@ export class Machine {
   }
 
   get created(): string {
-    return formatDate(this.createdDate, 'dd.MM.yyyy hh:mm:ss', 'en_GB');
+    return formatDate(this.createdDate, 'dd.MM.yyyy, HH:mm:ss', 'en_GB');
   }
 
   get status(): string {
