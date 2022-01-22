@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {AuthenticationResponse, LoginRequest} from '../model/user-dto';
 import {map, Observable} from 'rxjs';
 import {PermissionCarrier} from "../model/permission-model";
+import {ListenerService} from "./listener.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,12 @@ export class AuthenticationService {
   private logoutUrl: string = '/logout';
   private authentication: Authentication;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private listenerService: ListenerService) {
     this.authentication = Authentication.fromLocalStorage();
+    if(this.authentication.authenticated) {
+      this.listenerService.connect(this.token, String(this.id));
+    }
   }
 
   get authenticated(): boolean {
@@ -52,6 +57,7 @@ export class AuthenticationService {
     return this.httpClient.post<AuthenticationResponse>(this.apiUrl + this.loginUrl, login).pipe<Authentication>(map(response => {
       this.authentication = Authentication.fromResponse(response);
       this.authentication.toLocalStorage();
+      this.listenerService.connect(this.token, String(this.id));
       return this.authentication;
     }));
   }
@@ -61,6 +67,7 @@ export class AuthenticationService {
     this.httpClient.get(this.apiUrl + this.logoutUrl).subscribe(() => {
       this.authentication = Authentication.fromLocalStorage();
     });
+    this.listenerService.disconnect();
     this.authentication.authenticated = false;
   }
 }

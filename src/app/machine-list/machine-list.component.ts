@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 import {Observer} from "rxjs";
-import {Machine, MachinePage} from "../model/machine-model";
+import {Machine, MachinePage, StateChangeMessage} from "../model/machine-model";
 import {AuthenticationService} from "../services/authentication.service";
 import {MachineManagementService} from "../services/machine-management.service";
+import {ListenerService} from "../services/listener.service";
 
 @Component({
   selector: 'app-machine-list',
@@ -24,8 +25,21 @@ export class MachineListComponent implements OnInit {
   running: boolean = true;
 
   constructor(private authenticationService: AuthenticationService,
-              private machineManagementService: MachineManagementService) {
+              private machineManagementService: MachineManagementService,
+              private listenerService: ListenerService) {
     this.refresh();
+    const stateChangeObserver: Observer<StateChangeMessage> = {
+      next: response => {
+        for(const machine of this.machines) {
+          if(machine.machineId === response.machineId) {
+            machine.statusSet = response.status;
+          }
+        }
+      },
+      error: err => alert(err),
+      complete: () => {}
+    }
+    this.listenerService.receiveMessages().subscribe(stateChangeObserver);
   }
 
   ngOnInit(): void {
@@ -76,31 +90,24 @@ export class MachineListComponent implements OnInit {
     this.selectPage(this.current_page - 1);
   }
 
-  startMachine(machine: Machine): void {
-    const operateObserver: Observer<void> = {
+  getObserver(): Observer<void> {
+    return {
       next: () => {},
       error: err => alert(err),
       complete: () => {}
     }
-    this.machineManagementService.startMachine(machine).subscribe(operateObserver);
+  }
+
+  startMachine(machine: Machine): void {
+    this.machineManagementService.startMachine(machine).subscribe(this.getObserver);
   }
 
   stopMachine(machine: Machine): void {
-    const operateObserver: Observer<void> = {
-      next: () => {},
-      error: err => alert(err),
-      complete: () => {}
-    }
-    this.machineManagementService.stopMachine(machine).subscribe(operateObserver);
+    this.machineManagementService.stopMachine(machine).subscribe(this.getObserver);
   }
 
   restartMachine(machine: Machine): void {
-    const operateObserver: Observer<void> = {
-      next: () => {},
-      error: err => alert(err),
-      complete: () => {}
-    }
-    this.machineManagementService.restartMachine(machine).subscribe(operateObserver);
+    this.machineManagementService.restartMachine(machine).subscribe(this.getObserver);
   }
 
   confirmDestroy(machine: Machine): void {

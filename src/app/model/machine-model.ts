@@ -40,6 +40,10 @@ export class Machine {
     return lower.charAt(0).toUpperCase() + lower.substring(1);
   }
 
+  set statusSet(value: Status) {
+    this.statusEnum = value;
+  }
+
   get running(): boolean {
     return this.statusEnum === 'RUNNING';
   }
@@ -52,4 +56,9 @@ export class Machine {
 export interface MachinePage {
   content: Machine[],
   totalPages: number;
+}
+
+export interface StateChangeMessage {
+  machineId: number,
+  status: Status;
 }
