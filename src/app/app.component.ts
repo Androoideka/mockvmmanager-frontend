@@ -27,6 +27,14 @@ export class AppComponent {
     return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[0]];
   }
 
+  get can_search_machines() {
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[4]];
+  }
+
+  get can_create_machines() {
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[8]];
+  }
+
   logOut() {
     this.authenticationService.logOut();
     this.router.navigate(['']).then(() => {});

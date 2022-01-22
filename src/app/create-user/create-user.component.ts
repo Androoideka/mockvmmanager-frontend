@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CrudService} from "../services/crud.service";
 import {User} from "../model/user-model";
 import {Observer} from "rxjs";
+import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 
 @Component({
   selector: 'app-create-user',
@@ -28,11 +29,19 @@ export class CreateUserComponent implements OnInit {
       password_input: ['', Validators.required],
       name_input: ['', Validators.required],
       surname_input: ['', Validators.required],
-      can_read_users: [false],
-      can_create_users: [false],
-      can_update_users: [false],
-      can_delete_users: [false]
+      permission_array: this.formBuilder.array([])
     });
+    for (const perm of PERMISSION_REPRESENTATIONS) {
+      this.perm_form.push(this.formBuilder.control(false));
+    }
+  }
+
+  get perm_form(): FormArray {
+    return (this.formGroup.get('permission_array') as FormArray)
+  }
+
+  get PERMISSION_REPRESENTATIONS(): string[] {
+    return PERMISSION_REPRESENTATIONS;
   }
 
   get email(): string {
@@ -51,20 +60,8 @@ export class CreateUserComponent implements OnInit {
     return this.formGroup.get('surname_input')?.value;
   }
 
-  get can_read_users(): boolean {
-    return this.formGroup.get('can_read_users')?.value;
-  }
-
-  get can_create_users(): boolean {
-    return this.formGroup.get('can_create_users')?.value;
-  }
-
-  get can_update_users(): boolean {
-    return this.formGroup.get('can_update_users')?.value;
-  }
-
-  get can_delete_users(): boolean {
-    return this.formGroup.get('can_delete_users')?.value;
+  get permissionValues(): boolean[] {
+    return this.perm_form.value as boolean[];
   }
 
   createUser(): void {
@@ -74,8 +71,7 @@ export class CreateUserComponent implements OnInit {
       return;
     }
     //let encodedPassword: string = btoa(this.password);
-    const user: User = User.fromTemplate(0, this.email, this.password, this.name, this.surname,
-      this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users);
+    const user: User = User.fromTemplate(0, this.email, this.password, this.name, this.surname, this.permissionValues);
     const createObserver: Observer<void> = {
       next: () => {
       },

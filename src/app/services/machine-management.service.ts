@@ -43,10 +43,13 @@ export class MachineManagementService {
       url += '&';
       url += 'status=';
       if(stopped) {
-        url += 'stopped';
+        url += 'STOPPED';
       }
       if(running) {
-        url += 'running';
+        url += 'RUNNING';
+      }
+      if(!stopped && !running) {
+        url += 'NONE';
       }
     }
     return this.httpClient.get<MachinePageResponse>(url).pipe<MachinePage>(map(response => {

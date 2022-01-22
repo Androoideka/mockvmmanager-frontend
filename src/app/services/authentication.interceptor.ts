@@ -49,6 +49,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       errorMessage = 'You are not authorised to do this operation.';
       this.router.navigate(['']);
     }
+    if(error.status == 409) {
+      errorMessage = error.error.message;
+    }
     return throwError(() => errorMessage);
   }
 }

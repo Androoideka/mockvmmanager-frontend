@@ -4,8 +4,9 @@
     <div class="navbar-nav me-auto">
       <a [routerLink]="'/list'" class="nav-link">User List</a>
       <a *ngIf="authenticated && can_create_users" [routerLink]="'/create'" class="nav-link">Create User</a>
-      <a *ngIf="authenticated" [routerLink]="'/mcreate'" class="nav-link">Create Machine</a>
-      <a *ngIf="authenticated" [routerLink]="'/mlist'" class="nav-link">Machine List</a>
+      <a *ngIf="authenticated && can_search_machines" [routerLink]="'/mlist'" class="nav-link">Machine List</a>
+      <a *ngIf="authenticated && can_create_machines" [routerLink]="'/mcreate'" class="nav-link">Create Machine</a>
+      <a *ngIf="authenticated" [routerLink]="'/errors'" class="nav-link">Error Log</a>
     </div>
     <a *ngIf="!authenticated" [routerLink]="'/login'" class="nav-link">Sign in</a>
     <span *ngIf="authenticated">Welcome, {{ identifier }}!</span>

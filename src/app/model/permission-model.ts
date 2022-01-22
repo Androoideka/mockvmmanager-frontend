@@ -25,18 +25,14 @@ export interface PermissionListResponse {
 }
 
 export class PermissionList {
-  private readonly permissionValues: boolean[];
+  public readonly permissionValues: boolean[];
 
   static fromResponse(permissionResponse: PermissionListResponse): PermissionList & PermissionIndex {
     const permissionList = new PermissionList(permissionResponse.permissionValues);
     return PermissionList.create(permissionList);
   }
 
-  static fromValues(can_read_users: boolean,
-                    can_create_users: boolean,
-                    can_update_users: boolean,
-                    can_delete_users: boolean): PermissionCarrier {
-    const permissionValues: boolean[] = [can_create_users, can_read_users, can_update_users, can_delete_users];
+  static fromValues(permissionValues: boolean[]): PermissionCarrier {
     const permissionList = new PermissionList(permissionValues);
     return PermissionList.create(permissionList);
   }
@@ -68,7 +64,7 @@ export class PermissionList {
     return perms;
   }
 
-  constructor(permissionValues: boolean[]) {
+  private constructor(permissionValues: boolean[]) {
     this.permissionValues = permissionValues;
   }
 

@@ -18,11 +18,8 @@ export class User {
   }
 
   static fromTemplate(userId: number, email: string, password: string, name: string, surname: string,
-                      can_read_users: boolean,
-                      can_create_users: boolean,
-                      can_update_users: boolean,
-                      can_delete_users: boolean): User {
-    const permissionList: PermissionCarrier = PermissionList.fromValues(can_read_users, can_create_users, can_update_users, can_delete_users);
+                      permissionValues: boolean[]): User {
+    const permissionList: PermissionCarrier = PermissionList.fromValues(permissionValues);
     return new User(userId, email, password, name, surname, permissionList);
   }
 

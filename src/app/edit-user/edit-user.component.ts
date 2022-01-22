@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CrudService} from "../services/crud.service";
 import {User} from "../model/user-model";
@@ -29,10 +29,7 @@ export class EditUserComponent implements OnInit {
           email_input: response.email,
           name_input: response.name,
           surname_input: response.surname,
-          can_read_users: response.permissionList[PERMISSION_REPRESENTATIONS[1]],
-          can_create_users: response.permissionList[PERMISSION_REPRESENTATIONS[0]],
-          can_update_users: response.permissionList[PERMISSION_REPRESENTATIONS[2]],
-          can_delete_users: response.permissionList[PERMISSION_REPRESENTATIONS[3]]
+          permission_array: response.permissionList.permissionValues
         });
       })
     })
@@ -43,11 +40,19 @@ export class EditUserComponent implements OnInit {
       email_input: ['', Validators.email],
       name_input: ['', Validators.required],
       surname_input: ['', Validators.required],
-      can_read_users: [false],
-      can_create_users: [false],
-      can_update_users: [false],
-      can_delete_users: [false]
+      permission_array: this.formBuilder.array([])
     });
+    for (const perm of PERMISSION_REPRESENTATIONS) {
+      this.perm_form.push(this.formBuilder.control(false));
+    }
+  }
+
+  get perm_form(): FormArray {
+    return (this.formGroup.get('permission_array') as FormArray)
+  }
+
+  get PERMISSION_REPRESENTATIONS(): string[] {
+    return PERMISSION_REPRESENTATIONS;
   }
 
   get email(): string {
@@ -62,20 +67,8 @@ export class EditUserComponent implements OnInit {
     return this.formGroup.get('surname_input')?.value;
   }
 
-  get can_read_users(): boolean {
-    return this.formGroup.get('can_read_users')?.value;
-  }
-
-  get can_create_users(): boolean {
-    return this.formGroup.get('can_create_users')?.value;
-  }
-
-  get can_update_users(): boolean {
-    return this.formGroup.get('can_update_users')?.value;
-  }
-
-  get can_delete_users(): boolean {
-    return this.formGroup.get('can_delete_users')?.value;
+  get permissionValues(): boolean[] {
+    return this.perm_form.value as boolean[];
   }
 
   editUser(): void {
@@ -87,8 +80,7 @@ export class EditUserComponent implements OnInit {
       alert('Please fill in the fields correctly.');
       return;
     }
-    const newUser = User.fromTemplate(this.id, this.email, '', this.name, this.surname,
-      this.can_read_users, this.can_create_users, this.can_update_users, this.can_delete_users);
+    const newUser = User.fromTemplate(this.id, this.email, '', this.name, this.surname, this.permissionValues);
     const editObserver: Observer<void> = {
       next: () => {
       },
