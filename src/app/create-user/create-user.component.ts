@@ -82,7 +82,7 @@ export class CreateUserComponent implements OnInit {
       error: err => alert(err),
       complete: () => {
         this.created = true;
-        this.username = this.email;
+        this.username = user.email;
       }
     }
     this.crudService.createUser(user).subscribe(createObserver);

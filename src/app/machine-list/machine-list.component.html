@@ -1,1 +1,67 @@
-<p>machine-list works!</p>
+<div class="row mb-5">
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mb-3">
+    <label for="name-input" class="form-label">Machine name</label>
+    <input [(ngModel)]="name_filter" type="text" class="form-control" id="name-input">
+  </div>
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mb-3">
+    <div class="form-group">
+      <label for="start-date">From</label>
+      <input [(ngModel)]="from_filter" class="form-control" id="start-date" name="start-date" type="date">
+    </div>
+    <div class="form-group">
+      <label for="end-date">To</label>
+      <input [(ngModel)]="to_filter" class="form-control" id="end-date" name="end-date" type="date">
+    </div>
+  </div>
+  <div class="col-12 col-md-6 offset-md-3 mb-3 text-center">
+    <div class="form-check form-check-inline">
+      <input [(ngModel)]="stopped" class="form-check-input" type="checkbox" id="stopped">
+      <label class="form-check-label" for="stopped">Stopped</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input [(ngModel)]="running" class="form-check-input" type="checkbox" id="running">
+      <label class="form-check-label" for="running">Running</label>
+    </div>
+  </div>
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3 text-center">
+    <button (click)="refresh()" type="submit" class="btn btn-primary">Filter</button>
+  </div>
+</div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3">
+  <div *ngFor="let machine of machines" class="col">
+    <div class="card mb-3">
+      <div class="card-header">
+        <button (click)="confirmDestroy(machine)" type="button" class="btn-close" aria-label="Close"></button>
+        {{ machine.status }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ machine.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Created: {{ machine.created }}</h6>
+        <a *ngIf="machine.stopped" (click)="startMachine(machine)" class="btn btn-primary">Start</a>
+        <a *ngIf="machine.running" (click)="stopMachine(machine)" class="btn btn-primary me-2">Stop</a>
+        <a *ngIf="machine.running" (click)="restartMachine(machine)" class="btn btn-primary">Restart</a>
+      </div>
+    </div>
+  </div>
+</div>
+<nav *ngIf="total_pages != 0" aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <li *ngIf="current_page != 0" class="page-item">
+      <a (click)="prevPage()" class="page-link" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="visually-hidden">Previous</span>
+      </a>
+    </li>
+    <li *ngFor="let page of page_numbers" [ngClass]="current_page == page ? 'active' : ''" class="page-item">
+      <a (click)="selectPage(page)" class="page-link">
+        {{ page + 1 }}
+      </a>
+    </li>
+    <li *ngIf="current_page != total_pages - 1" class="page-item">
+      <a (click)="nextPage()" class="page-link" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="visually-hidden">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>

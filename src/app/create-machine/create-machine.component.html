@@ -1,1 +1,14 @@
-<p>create-machine works!</p>
+<form [formGroup]="formGroup" (submit)="createMachine()" class="row">
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mb-3">
+    <label for="name-input" class="form-label">Machine name:</label>
+    <input type="text" class="form-control" id="name-input" [formControlName]="'name_input'" required>
+  </div>
+  <div class="col-10 offset-1 col-xl-6 offset-xl-3">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
+<div *ngIf="created" class="row mt-5">
+  <div class="col-12 text-center">
+    Machine with name {{ machineName }} was successfully created.
+  </div>
+</div>

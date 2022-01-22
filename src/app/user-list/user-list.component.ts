@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit {
 
   constructor(private authenticationService: AuthenticationService,
               private crudService: CrudService) {
-    this.selectPage(this.current_page);
+    this.refresh();
   }
 
   ngOnInit(): void {
@@ -31,6 +31,10 @@ export class UserListComponent implements OnInit {
 
   get can_delete(): boolean {
     return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[3]];
+  }
+
+  refresh(): void {
+    this.selectPage(this.current_page);
   }
 
   selectPage(page: number): void {
