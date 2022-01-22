@@ -42,8 +42,7 @@ export class CreateMachineComponent implements OnInit {
       name: this.name
     }
     const createObserver: Observer<Machine> = {
-      next: response => {
-        console.log(response);
+      next: () => {
         this.created = true;
         this.machineName = machine.name;
       },
