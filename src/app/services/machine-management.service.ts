@@ -86,9 +86,10 @@ export class MachineManagementService {
   }
 
   scheduleOperation(machine: Machine, machineOperation: MachineOperation, cron: string): Observable<void> {
+    const cronParam = cron.split(' ').join('%20');
     const url: string = this.apiUrl + this.machineUrl + this.urlForOperation(machineOperation)
       + '/' + machine.machineId
-      + 'cron=' + cron;
+      + '?cron=' + cronParam;
     return this.httpClient.get<void>(url);
   }
 

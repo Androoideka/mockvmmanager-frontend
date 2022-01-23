@@ -84,7 +84,12 @@ export class ErrorLogComponent implements OnInit {
   }
 
   scheduleOperation(): void {
-    this.machineManagementService.scheduleOperation(this.selectedMachine, Number(this.selectedOperation), this.cron);
+    const scheduleObserver: Observer<void> = {
+      next: () => {},
+      error: err => alert(err),
+      complete: () => {}
+    }
+    this.machineManagementService.scheduleOperation(this.selectedMachine, Number(this.selectedOperation), this.cron).subscribe(scheduleObserver);
   }
 
   refresh(): void {
