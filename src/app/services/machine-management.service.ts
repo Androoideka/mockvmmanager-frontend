@@ -1,6 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Machine, MachineCreateRequest, MachineData, MachinePage, MachinePageResponse} from "../model/machine-model";
+import {
+  Machine,
+  MachineCreateRequest,
+  MachineData,
+  MachineOperation,
+  MachinePage,
+  MachinePageResponse
+} from "../model/machine-model";
 import {map, Observable} from "rxjs";
 import {formatDate} from "@angular/common";
 
@@ -27,8 +34,8 @@ export class MachineManagementService {
     }));
   }
 
-  searchMachines(name_filter: string, from_filter: Date | undefined, to_filter: Date | undefined, stopped: boolean, running: boolean, page: number): Observable<MachinePage> {
-    let url: string = this.apiUrl + this.machineUrl + this.searchUrl + '?page=' + page;
+  searchMachines(name_filter: string, from_filter: Date | undefined, to_filter: Date | undefined, stopped: boolean, running: boolean, page: number, size: number): Observable<MachinePage> {
+    let url: string = this.apiUrl + this.machineUrl + this.searchUrl + '?page=' + page + '&size=' + size;
     if(name_filter.trim() != '') {
       url += '&';
       url += 'name=' + name_filter;
@@ -65,18 +72,23 @@ export class MachineManagementService {
     }))
   }
 
-  startMachine(machine: Machine): Observable<void> {
-    const url: string = this.apiUrl + this.machineUrl + this.startUrl + '/' + machine.machineId;
+  urlForOperation(machineOperation: MachineOperation): string {
+    if(machineOperation === MachineOperation.START) return this.startUrl;
+    if(machineOperation === MachineOperation.STOP) return this.stopUrl;
+    if(machineOperation === MachineOperation.RESTART) return this.restartUrl;
+    return '';
+  }
+
+  executeOperation(machine: Machine, machineOperation: MachineOperation): Observable<void> {
+    const url: string = this.apiUrl + this.machineUrl + this.urlForOperation(machineOperation)
+      + '/' + machine.machineId
     return this.httpClient.get<void>(url);
   }
 
-  stopMachine(machine: Machine): Observable<void> {
-    const url: string = this.apiUrl + this.machineUrl + this.stopUrl + '/' + machine.machineId;
-    return this.httpClient.get<void>(url);
-  }
-
-  restartMachine(machine: Machine): Observable<void> {
-    const url: string = this.apiUrl + this.machineUrl + this.restartUrl + '/' + machine.machineId;
+  scheduleOperation(machine: Machine, machineOperation: MachineOperation, cron: string): Observable<void> {
+    const url: string = this.apiUrl + this.machineUrl + this.urlForOperation(machineOperation)
+      + '/' + machine.machineId
+      + 'cron=' + cron;
     return this.httpClient.get<void>(url);
   }
 

@@ -37,9 +37,9 @@
       <div class="card-body">
         <h5 class="card-title">{{ machine.name }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">Created: {{ machine.created }}</h6>
-        <a *ngIf="machine.stopped" (click)="startMachine(machine)" class="btn btn-primary">Start</a>
-        <a *ngIf="machine.running" (click)="stopMachine(machine)" class="btn btn-primary me-2">Stop</a>
-        <a *ngIf="machine.running" (click)="restartMachine(machine)" class="btn btn-primary">Restart</a>
+        <a *ngIf="machine.stopped" (click)="executeOperation(machine, 0)" class="btn btn-primary">Start</a>
+        <a *ngIf="machine.running" (click)="executeOperation(machine, 1)" class="btn btn-primary me-2">Stop</a>
+        <a *ngIf="machine.running" (click)="executeOperation(machine, 2)" class="btn btn-primary">Restart</a>
       </div>
     </div>
   </div>

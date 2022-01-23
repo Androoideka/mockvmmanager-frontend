@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 import {Observer} from "rxjs";
-import {Machine, MachinePage, StateChangeMessage} from "../model/machine-model";
+import {Machine, MachineOperation, MachinePage, StateChangeMessage} from "../model/machine-model";
 import {AuthenticationService} from "../services/authentication.service";
 import {MachineManagementService} from "../services/machine-management.service";
 import {ListenerService} from "../services/listener.service";
@@ -79,7 +79,7 @@ export class MachineListComponent implements OnInit {
       error: err => alert(err),
       complete: () => {}
     }
-    this.machineManagementService.searchMachines(this.name_filter, this.from_filter, this.to_filter, this.stopped, this.running, page).subscribe(listObserver);
+    this.machineManagementService.searchMachines(this.name_filter, this.from_filter, this.to_filter, this.stopped, this.running, page, 9).subscribe(listObserver);
   }
 
   nextPage(): void {
@@ -90,24 +90,13 @@ export class MachineListComponent implements OnInit {
     this.selectPage(this.current_page - 1);
   }
 
-  getObserver(): Observer<void> {
-    return {
+  executeOperation(machine: Machine, machineOperation: MachineOperation): void {
+    const operateObserver: Observer<void> = {
       next: () => {},
-      error: err => alert(err),
-      complete: () => {}
+        error: err => alert(err),
+        complete: () => {}
     }
-  }
-
-  startMachine(machine: Machine): void {
-    this.machineManagementService.startMachine(machine).subscribe(this.getObserver);
-  }
-
-  stopMachine(machine: Machine): void {
-    this.machineManagementService.stopMachine(machine).subscribe(this.getObserver);
-  }
-
-  restartMachine(machine: Machine): void {
-    this.machineManagementService.restartMachine(machine).subscribe(this.getObserver);
+    this.machineManagementService.executeOperation(machine, machineOperation).subscribe(operateObserver);
   }
 
   confirmDestroy(machine: Machine): void {

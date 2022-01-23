@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ErrorLog, ErrorLogPage} from "../model/error-model";
 import {Observer} from "rxjs";
 import {ErrorService} from "../services/error.service";
+import {Machine, MachinePage} from "../model/machine-model";
+import {MachineManagementService} from "../services/machine-management.service";
 
 @Component({
   selector: 'app-error-log',
@@ -10,16 +12,52 @@ import {ErrorService} from "../services/error.service";
 })
 export class ErrorLogComponent implements OnInit {
 
+  machines: Machine[] = [];
   errors: ErrorLog[] = [];
   current_page: number = 0;
   total_pages: number = 0;
   page_numbers: number[] = [];
 
-  constructor(private errorService: ErrorService) {
+  selectedOperation: string;
+  selectedMachine: Machine;
+  cron0: string;
+  cron1: string;
+  cron2: string;
+  cron3: string;
+  cron4: string;
+  cron5: string;
+
+  constructor(private errorService: ErrorService,
+              private machineManagementService: MachineManagementService) {
+    const listObserver: Observer<MachinePage> = {
+      next: response => {
+        this.machines = response.content;
+        this.selectedMachine = this.machines[0];
+      },
+      error: err => alert(err),
+      complete: () => {}
+    }
+    this.machineManagementService.searchMachines('', undefined, undefined, true, true, 0, 999).subscribe(listObserver);
     this.refresh();
+    this.selectedOperation = '0';
+    this.selectedMachine = this.machines[0];
+    this.cron0 = '*';
+    this.cron1 = '*';
+    this.cron2 = '*';
+    this.cron3 = '*';
+    this.cron4 = '*';
+    this.cron5 = '*';
   }
 
   ngOnInit(): void {
+  }
+
+  get cron(): string {
+    return this.cron0 + ' ' + this.cron1 + ' ' + this.cron2 + ' ' + this.cron3 + ' ' + this.cron4 + ' ' + this.cron5;
+  }
+
+  scheduleOperation(): void {
+    this.machineManagementService.scheduleOperation(this.selectedMachine, Number(this.selectedOperation), this.cron);
   }
 
   refresh(): void {

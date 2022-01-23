@@ -1,3 +1,51 @@
+<div *ngIf="machines.length !== 0" class="row text-center">
+  <div class="col-12">
+    <div>Cron</div>
+    <input [(ngModel)]="cron0" type="text" id="second" size="5">
+    <input [(ngModel)]="cron1" type="text" id="minute" size="5">
+    <input [(ngModel)]="cron2" type="text" id="hour" size="5">
+    <input [(ngModel)]="cron3" type="text" id="day-month" size="5">
+    <input [(ngModel)]="cron4" type="text" id="month" size="5">
+    <input [(ngModel)]="cron5" type="text" id="day-week" size="5">
+  </div>
+  <div class="col-12 mt-2">
+    <select [(ngModel)]="selectedMachine">
+      <option *ngFor="let machine of machines" [ngValue]="machine" class="form-select" aria-label="Select machine">
+        {{ machine.name }} ({{ machine.machineId }})
+      </option>
+    </select>
+  </div>
+  <div class="col-12 mt-2">
+    <div class="form-check form-check-inline">
+      <input [(ngModel)]="selectedOperation" class="form-check-input" type="radio" name="start" id="start" value="0">
+      <label class="form-check-label" for="start">
+        Start
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input [(ngModel)]="selectedOperation" class="form-check-input" type="radio" name="stop" id="stop" value="1">
+      <label class="form-check-label" for="stop">
+        Stop
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input [(ngModel)]="selectedOperation" class="form-check-input" type="radio" name="restart" id="restart" value="2">
+      <label class="form-check-label" for="restart">
+        Restart
+      </label>
+    </div>
+  </div>
+  <div class="col-12 mt-2">
+    <button (click)="scheduleOperation()" type="submit" class="btn btn-primary">Schedule</button>
+  </div>
+</div>
+<div *ngIf="machines.length === 0" class="row text-center">
+  <div class="col-12">
+    <h2>
+      No machines available.
+    </h2>
+  </div>
+</div>
 <div *ngFor="let error of errors" class="row">
   <div class="col-10 offset-md-1">
     <h2 class="d-block">

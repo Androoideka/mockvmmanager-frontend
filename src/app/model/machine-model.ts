@@ -18,6 +18,13 @@ export interface MachinePageResponse {
 
 export type Status = 'STOPPED' | 'RUNNING';
 
+export enum MachineOperation {
+  START,
+  STOP,
+  RESTART,
+  DESTROY
+}
+
 export class Machine {
   static fromResponse(machineData: MachineData): Machine {
     const date: Date = new Date(machineData.created);
