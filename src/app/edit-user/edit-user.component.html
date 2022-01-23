@@ -1,14 +1,14 @@
 <form [formGroup]="formGroup" (submit)="editUser()" class="row">
-  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mb-3">
+  <div class="col-10 offset-1 col-xl-8 offset-xl-2 mb-3">
     <label for="email-input" class="form-label">Email address</label>
     <input type="email" class="form-control" id="email-input" [formControlName]="'email_input'" required>
     <div id="email-help" class="form-text">Your email must be unique.</div>
   </div>
-  <div class="col-5 offset-1 col-xl-3 offset-xl-3 mb-3">
+  <div class="col-5 offset-1 col-xl-4 offset-xl-2 mb-3">
     <label for="name-input" class="form-label">First name</label>
     <input type="text" class="form-control" id="name-input" [formControlName]="'name_input'" required>
   </div>
-  <div class="col-5 col-xl-3 mb-3">
+  <div class="col-5 col-xl-4 mb-3">
     <label for="surname-input" class="form-label">Last name</label>
     <input type="text" class="form-control" id="surname-input" [formControlName]="'surname_input'" required>
   </div>
@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  <div class="col-10 offset-1 col-xl-6 offset-xl-3 mt-2">
+  <div class="col-10 offset-1 col-xl-8 offset-xl-2 mt-2">
     <button [routerLink]="'/list'" type="button" class="btn btn-danger me-2">Back</button>
     <button type="submit" class="btn btn-primary">Save changes</button>
   </div>
