@@ -8,7 +8,8 @@ export interface MachineData {
   machineId: number,
   name: string,
   created: string,
-  status: string
+  status: string,
+  operationsLeft: number
 }
 
 export interface MachinePageResponse {
@@ -29,13 +30,14 @@ export class Machine {
   static fromResponse(machineData: MachineData): Machine {
     const date: Date = new Date(machineData.created);
     const status: Status = machineData.status as Status;
-    return new Machine(machineData.machineId, machineData.name, date, status);
+    return new Machine(machineData.machineId, machineData.name, date, status, machineData.operationsLeft);
   }
 
   constructor(public machineId: number,
               public name: string,
               private createdDate: Date,
-              private statusEnum: Status) {
+              private statusEnum: Status,
+              public operationsLeft: number) {
   }
 
   get created(): string {
@@ -67,5 +69,6 @@ export interface MachinePage {
 
 export interface StateChangeMessage {
   machineId: number,
-  status: Status;
+  status: Status,
+  operationsLeft: number;
 }

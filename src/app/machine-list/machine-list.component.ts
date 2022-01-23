@@ -27,12 +27,12 @@ export class MachineListComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService,
               private machineManagementService: MachineManagementService,
               private listenerService: ListenerService) {
-    this.refresh();
     const stateChangeObserver: Observer<StateChangeMessage> = {
       next: response => {
         for(const machine of this.machines) {
           if(machine.machineId === response.machineId) {
             machine.statusSet = response.status;
+            machine.operationsLeft = response.operationsLeft;
           }
         }
       },
@@ -40,6 +40,7 @@ export class MachineListComponent implements OnInit {
       complete: () => {}
     }
     this.listenerService.receiveMessages().subscribe(stateChangeObserver);
+    this.refresh();
   }
 
   ngOnInit(): void {
@@ -96,7 +97,9 @@ export class MachineListComponent implements OnInit {
     const operateObserver: Observer<void> = {
       next: () => {},
         error: err => alert(err),
-        complete: () => {}
+        complete: () => {
+          machine.operationsLeft = 1;
+        }
     }
     this.machineManagementService.executeOperation(machine, machineOperation).subscribe(operateObserver);
   }
