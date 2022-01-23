@@ -19,8 +19,8 @@ export class MachineListComponent implements OnInit {
   page_numbers: number[] = [];
 
   name_filter: string = '';
-  from_filter: Date | undefined = undefined;
-  to_filter: Date | undefined = undefined;
+  from_filter: string = '';
+  to_filter: string = '';
   stopped: boolean = true;
   running: boolean = true;
 
@@ -45,19 +45,19 @@ export class MachineListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get can_start(): boolean {
+  get can_start_machines(): boolean {
     return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[5]];
   }
 
-  get can_stop(): boolean {
+  get can_stop_machines(): boolean {
     return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[6]];
   }
 
-  get can_restart(): boolean {
+  get can_restart_machines(): boolean {
     return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[7]];
   }
 
-  get can_destroy(): boolean {
+  get can_destroy_machines(): boolean {
     return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[9]];
   }
 
@@ -79,7 +79,9 @@ export class MachineListComponent implements OnInit {
       error: err => alert(err),
       complete: () => {}
     }
-    this.machineManagementService.searchMachines(this.name_filter, this.from_filter, this.to_filter, this.stopped, this.running, page, 9).subscribe(listObserver);
+    const date_from: Date | undefined = this.from_filter === '' ? undefined : new Date(this.from_filter);
+    const date_to: Date | undefined = this.to_filter === '' ? undefined : new Date(this.to_filter);
+    this.machineManagementService.searchMachines(this.name_filter, date_from, date_to, this.stopped, this.running, page, 9).subscribe(listObserver);
   }
 
   nextPage(): void {

@@ -31,15 +31,15 @@
   <div *ngFor="let machine of machines" class="col">
     <div class="card mb-3">
       <div class="card-header">
-        <button (click)="confirmDestroy(machine)" type="button" class="btn-close" aria-label="Close"></button>
+        <button *ngIf="can_destroy_machines && machine.stopped" (click)="confirmDestroy(machine)" type="button" class="btn-close" aria-label="Close"></button>
         {{ machine.status }}
       </div>
       <div class="card-body">
         <h5 class="card-title">{{ machine.name }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">Created: {{ machine.created }}</h6>
-        <a *ngIf="machine.stopped" (click)="executeOperation(machine, 0)" class="btn btn-primary">Start</a>
-        <a *ngIf="machine.running" (click)="executeOperation(machine, 1)" class="btn btn-danger me-2">Stop</a>
-        <a *ngIf="machine.running" (click)="executeOperation(machine, 2)" class="btn btn-success">Restart</a>
+        <a *ngIf="can_start_machines && machine.stopped" (click)="executeOperation(machine, 0)" class="btn btn-primary">Start</a>
+        <a *ngIf="can_stop_machines && machine.running" (click)="executeOperation(machine, 1)" class="btn btn-danger me-2">Stop</a>
+        <a *ngIf="can_restart_machines && machine.running" (click)="executeOperation(machine, 2)" class="btn btn-success">Restart</a>
       </div>
     </div>
   </div>

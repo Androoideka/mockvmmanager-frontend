@@ -1,4 +1,4 @@
-<div *ngIf="machines.length !== 0" class="row text-center">
+<div *ngIf="!no_operation_permissions && machines.length !== 0" class="row text-center">
   <div class="col-12">
     <div>Cron</div>
     <input [(ngModel)]="cron0" type="text" id="second" size="5">
@@ -16,19 +16,19 @@
     </select>
   </div>
   <div class="col-12 mt-2">
-    <div class="form-check form-check-inline">
+    <div *ngIf="can_start_machines" class="form-check form-check-inline">
       <input [(ngModel)]="selectedOperation" class="form-check-input" type="radio" name="start" id="start" value="0">
       <label class="form-check-label" for="start">
         Start
       </label>
     </div>
-    <div class="form-check form-check-inline">
+    <div *ngIf="can_stop_machines" class="form-check form-check-inline">
       <input [(ngModel)]="selectedOperation" class="form-check-input" type="radio" name="stop" id="stop" value="1">
       <label class="form-check-label" for="stop">
         Stop
       </label>
     </div>
-    <div class="form-check form-check-inline">
+    <div *ngIf="can_restart_machines" class="form-check form-check-inline">
       <input [(ngModel)]="selectedOperation" class="form-check-input" type="radio" name="restart" id="restart" value="2">
       <label class="form-check-label" for="restart">
         Restart
@@ -39,7 +39,7 @@
     <button (click)="scheduleOperation()" type="submit" class="btn btn-primary">Schedule</button>
   </div>
 </div>
-<div *ngIf="machines.length === 0" class="row text-center">
+<div *ngIf="!no_operation_permissions && machines.length === 0" class="row text-center">
   <div class="col-12">
     <h2>
       No machines available.

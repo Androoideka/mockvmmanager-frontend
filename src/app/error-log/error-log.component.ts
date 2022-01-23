@@ -4,6 +4,8 @@ import {Observer} from "rxjs";
 import {ErrorService} from "../services/error.service";
 import {Machine, MachinePage} from "../model/machine-model";
 import {MachineManagementService} from "../services/machine-management.service";
+import {AuthenticationService} from "../services/authentication.service";
+import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 
 @Component({
   selector: 'app-error-log',
@@ -28,7 +30,8 @@ export class ErrorLogComponent implements OnInit {
   cron5: string;
 
   constructor(private errorService: ErrorService,
-              private machineManagementService: MachineManagementService) {
+              private machineManagementService: MachineManagementService,
+              private authenticationService: AuthenticationService) {
     const listObserver: Observer<MachinePage> = {
       next: response => {
         this.machines = response.content;
@@ -39,7 +42,13 @@ export class ErrorLogComponent implements OnInit {
     }
     this.machineManagementService.searchMachines('', undefined, undefined, true, true, 0, 999).subscribe(listObserver);
     this.refresh();
-    this.selectedOperation = '0';
+    if(this.can_start_machines) {
+      this.selectedOperation = '0';
+    } else if(this.can_stop_machines) {
+      this.selectedOperation = '1';
+    } else {
+      this.selectedOperation = '2';
+    }
     this.selectedMachine = this.machines[0];
     this.cron0 = '*';
     this.cron1 = '*';
@@ -54,6 +63,24 @@ export class ErrorLogComponent implements OnInit {
 
   get cron(): string {
     return this.cron0 + ' ' + this.cron1 + ' ' + this.cron2 + ' ' + this.cron3 + ' ' + this.cron4 + ' ' + this.cron5;
+  }
+
+  get no_operation_permissions(): boolean {
+    return !this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[5]]
+      && !this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[6]]
+      && !this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[7]]
+  }
+
+  get can_start_machines(): boolean {
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[5]];
+  }
+
+  get can_stop_machines(): boolean {
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[6]];
+  }
+
+  get can_restart_machines(): boolean {
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[7]];
   }
 
   scheduleOperation(): void {
