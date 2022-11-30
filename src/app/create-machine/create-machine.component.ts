@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {MachineManagementService} from "../services/machine-management.service";
 import {Observer} from "rxjs";
 import {Machine, MachineCreateRequest} from "../model/machine-model";
@@ -11,13 +11,13 @@ import {Machine, MachineCreateRequest} from "../model/machine-model";
 })
 export class CreateMachineComponent implements OnInit {
 
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   created: boolean;
   machineName: string;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private machineManagementService: MachineManagementService) {
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.created = false;
     this.machineName = "";
   }

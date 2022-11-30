@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CrudService} from "../services/crud.service";
 import {User} from "../model/user-model";
@@ -13,14 +13,14 @@ import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 })
 export class EditUserComponent implements OnInit {
 
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   private id: number;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private route: ActivatedRoute,
               private router: Router,
               private crudService: CrudService) {
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.id = -1;
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
@@ -47,8 +47,8 @@ export class EditUserComponent implements OnInit {
     }
   }
 
-  get perm_form(): FormArray {
-    return (this.formGroup.get('permission_array') as FormArray)
+  get perm_form(): UntypedFormArray {
+    return (this.formGroup.get('permission_array') as UntypedFormArray)
   }
 
   get PERMISSION_REPRESENTATIONS(): string[] {

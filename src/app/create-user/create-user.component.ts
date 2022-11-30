@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {CrudService} from "../services/crud.service";
 import {User} from "../model/user-model";
 import {Observer} from "rxjs";
@@ -12,13 +12,13 @@ import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 })
 export class CreateUserComponent implements OnInit {
 
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   created: boolean;
   username: string;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private crudService: CrudService) {
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.created = false;
     this.username = "";
   }
@@ -36,8 +36,8 @@ export class CreateUserComponent implements OnInit {
     }
   }
 
-  get perm_form(): FormArray {
-    return (this.formGroup.get('permission_array') as FormArray)
+  get perm_form(): UntypedFormArray {
+    return (this.formGroup.get('permission_array') as UntypedFormArray)
   }
 
   get PERMISSION_REPRESENTATIONS(): string[] {

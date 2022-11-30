@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {AuthenticationService} from "../services/authentication.service";
 import {LoginRequest} from "../model/user-dto";
 import {Observer} from "rxjs";
@@ -12,13 +12,13 @@ import {Authentication} from "../model/user-model";
 })
 export class LoginComponent implements OnInit {
 
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   welcome: boolean;
   private readonly authObserver: Observer<Authentication>;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private authenticationService: AuthenticationService) {
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.welcome = false;
     this.authObserver = {
       next: response => {
