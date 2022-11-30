@@ -31,7 +31,8 @@
   <div *ngFor="let machine of machines" class="col">
     <div class="card h-100 mb-3">
       <div class="card-header">
-        <button *ngIf="can_destroy_machines && machine.operationsLeft === 0 && machine.stopped" (click)="confirmDestroy(machine)" type="button" class="btn-close" aria-label="Close"></button>
+        <button *ngIf="can_destroy_machines && machine.operationsLeft === 0 && machine.stopped"
+          (click)="confirmDestroy(machine)" type="button" class="btn-close" aria-label="Close"></button>
         {{ machine.status }}
       </div>
       <div class="card-body">
@@ -40,9 +41,12 @@
         <div *ngIf="machine.operationsLeft > 0" class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-        <a *ngIf="can_start_machines && machine.operationsLeft === 0 && machine.stopped" (click)="executeOperation(machine, 0)" class="btn btn-primary">Start</a>
-        <a *ngIf="can_stop_machines && machine.operationsLeft === 0 && machine.running" (click)="executeOperation(machine, 1)" class="btn btn-danger me-2">Stop</a>
-        <a *ngIf="can_restart_machines && machine.operationsLeft === 0 && machine.running" (click)="executeOperation(machine, 2)" class="btn btn-success">Restart</a>
+        <a *ngIf="can_start_machines && machine.operationsLeft === 0 && machine.stopped"
+          (click)="executeOperation(machine, 0)" class="btn btn-primary">Start</a>
+        <a *ngIf="can_stop_machines && machine.operationsLeft === 0 && machine.running"
+          (click)="executeOperation(machine, 1)" class="btn btn-danger me-2">Stop</a>
+        <a *ngIf="can_restart_machines && machine.operationsLeft === 0 && machine.running"
+          (click)="executeOperation(machine, 2)" class="btn btn-success">Restart</a>
       </div>
     </div>
   </div>

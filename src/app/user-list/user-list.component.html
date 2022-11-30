@@ -1,40 +1,40 @@
 <table class="table text-center">
   <thead>
-  <tr>
-    <th *ngIf="can_delete" scope="col">
-      Delete
-    </th>
-    <th scope="col">
-      First name
-    </th>
-    <th scope="col">
-      Last name
-    </th>
-    <th scope="col">
-      Email
-    </th>
-    <th scope="col">
-      Permissions
-    </th>
-  </tr>
+    <tr>
+      <th *ngIf="can_delete" scope="col">
+        Delete
+      </th>
+      <th scope="col">
+        First name
+      </th>
+      <th scope="col">
+        Last name
+      </th>
+      <th scope="col">
+        Email
+      </th>
+      <th scope="col">
+        Permissions
+      </th>
+    </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let user of users">
-    <td *ngIf="can_delete">
-      <button (click)="deleteUser(user)" [routerLink]="'/list'" type="button" class="btn btn-danger">X</button>
-    </td>
-    <td> {{ user.name }} </td>
-    <td> {{ user.surname }} </td>
-    <td>
-      <a *ngIf="can_update" [routerLink]="'/edit'" [queryParams]="{id: user.userId}">
-        {{ user.email }}
-      </a>
-      <span *ngIf="!can_update">
+    <tr *ngFor="let user of users">
+      <td *ngIf="can_delete">
+        <button (click)="deleteUser(user)" [routerLink]="'/list'" type="button" class="btn btn-danger">X</button>
+      </td>
+      <td> {{ user.name }} </td>
+      <td> {{ user.surname }} </td>
+      <td>
+        <a *ngIf="can_update" [routerLink]="'/edit'" [queryParams]="{id: user.userId}">
+          {{ user.email }}
+        </a>
+        <span *ngIf="!can_update">
           {{ user.email }}
         </span>
-    </td>
-    <td> {{ user.permissionList.shortDisplay }} </td>
-  </tr>
+      </td>
+      <td> {{ user.permissionList.shortDisplay }} </td>
+    </tr>
   </tbody>
 </table>
 <nav *ngIf="total_pages != 0" aria-label="Page navigation">

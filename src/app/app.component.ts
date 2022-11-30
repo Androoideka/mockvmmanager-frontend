@@ -9,7 +9,7 @@ import {PERMISSION_REPRESENTATIONS} from "./model/permission-model";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'nwpprojekatfe-agasic218rn';
+  title = 'VM Manager';
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router) {

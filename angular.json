@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "nwpprojekatfe-agasic218rn": {
+    "vm-manager": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/nwpprojekatfe-agasic218rn",
+            "outputPath": "dist/vm-manager",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "nwpprojekatfe-agasic218rn:build:production"
+              "browserTarget": "vm-manager:build:production"
             },
             "development": {
-              "browserTarget": "nwpprojekatfe-agasic218rn:build:development"
+              "browserTarget": "vm-manager:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "nwpprojekatfe-agasic218rn:build"
+            "browserTarget": "vm-manager:build"
           }
         },
         "test": {
@@ -105,5 +105,5 @@
       }
     }
   },
-  "defaultProject": "nwpprojekatfe-agasic218rn"
+  "defaultProject": "vm-manager"
 }

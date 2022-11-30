@@ -14,7 +14,9 @@
   </div>
   <div formArrayName="permission_array" class="col-12">
     <div class="row">
-      <div *ngFor="let perm of PERMISSION_REPRESENTATIONS; let i = index" [ngClass]="{'text-end text-md-start': i % 2 == 0, 'offset-md-2 offset-xl-0': i % 3 == 0, 'offset-xl-2': i % 4 == 0}" class="col-6 col-md-3 col-xl-2">
+      <div *ngFor="let perm of PERMISSION_REPRESENTATIONS; let i = index"
+        [ngClass]="{'text-end text-md-start': i % 2 == 0, 'offset-md-2 offset-xl-0': i % 3 == 0, 'offset-xl-2': i % 4 == 0}"
+        class="col-6 col-md-3 col-xl-2">
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="{{ i }}" [formControlName]="i">
           <label class="form-check-label" for="{{ i }}">{{ perm }}</label>

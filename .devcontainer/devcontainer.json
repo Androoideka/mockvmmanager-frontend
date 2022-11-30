@@ -1,0 +1,26 @@
+{
+    "name": "Angular",
+    "image": "androoideka/alpine-angular:latest",
+    "features": {
+        "ghcr.io/androoideka/containers/alpine-utils:latest": {},
+        "ghcr.io/androoideka/containers/wslg-config:latest": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Angular.ng-template"
+            ]
+        }
+    },
+    "runArgs": [
+        "--name=vm-manager-frontend",
+        "--network=spring-postgres"
+    ],
+    "containerEnv": {
+        "DISPLAY": ":0",
+        "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}",
+        "XDG_RUNTIME_DIR": "${localEnv:XDG_RUNTIME_DIR}",
+        "PULSE_SERVER": "${localEnv:PULSE_SERVER}"
+    },
+    "remoteUser": "vscode"
+}
