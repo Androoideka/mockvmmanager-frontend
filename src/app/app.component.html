@@ -8,9 +8,9 @@
       <a *ngIf="authenticated && can_create_machines" [routerLink]="'/mcreate'" class="nav-link">Create Machine</a>
       <a *ngIf="authenticated" [routerLink]="'/errors'" class="nav-link">Error Log</a>
     </div>
-    <a *ngIf="!authenticated" [routerLink]="'/login'" class="nav-link">Sign in</a>
+    <a *ngIf="!authenticated" [routerLink]="'/login'" class="btn btn-light ms-3">Sign in</a>
     <span *ngIf="authenticated">Welcome, {{ identifier }}!</span>
-    <a *ngIf="authenticated" (click)="logOut()" class="nav-link">Log out</a>
+    <a *ngIf="authenticated" (click)="logOut()" class="btn btn-light ms-3">Log out</a>
   </div>
 </nav>
 <div class="container-fluid">
