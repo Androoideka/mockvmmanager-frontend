@@ -27,6 +27,10 @@ export class AppComponent {
     return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[0]];
   }
 
+  get can_read_users() {
+    return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[1]];
+  }
+
   get can_search_machines() {
     return this.authenticationService.permissions[PERMISSION_REPRESENTATIONS[4]];
   }

@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <a [routerLink]="'/'" class="navbar-brand">VM Manager</a>
     <div class="navbar-nav me-auto">
-      <a [routerLink]="'/list'" class="nav-link">User List</a>
+      <a *ngIf="authenticated && can_read_users" [routerLink]="'/list'" class="nav-link">User List</a>
       <a *ngIf="authenticated && can_create_users" [routerLink]="'/create'" class="nav-link">Create User</a>
       <a *ngIf="authenticated && can_search_machines" [routerLink]="'/mlist'" class="nav-link">Machine List</a>
       <a *ngIf="authenticated && can_create_machines" [routerLink]="'/mcreate'" class="nav-link">Create Machine</a>
