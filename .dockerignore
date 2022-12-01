@@ -1,0 +1,7 @@
+*
+
+!/src
+!angular.json
+!karma.conf.js
+!package*
+!tsconfig*
