@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from "../services/authentication.service";
-import {CrudService} from "../services/crud.service";
-import {User, UserPage} from "../model/user-model";
 import {Observer} from "rxjs";
-import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
+import {User, UserPage} from "@model/user-model";
+import {PERMISSION_REPRESENTATIONS} from "@model/permission-model";
+import {AuthenticationService} from "@services/authentication.service";
+import {CrudService} from "@services/crud.service";
 
 @Component({
   selector: 'app-user-list',

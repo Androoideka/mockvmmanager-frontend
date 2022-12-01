@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
 import {Observer} from "rxjs";
-import {Machine, MachineOperation, MachinePage, StateChangeMessage} from "../model/machine-model";
-import {AuthenticationService} from "../services/authentication.service";
-import {MachineManagementService} from "../services/machine-management.service";
-import {ListenerService} from "../services/listener.service";
+import {PERMISSION_REPRESENTATIONS} from "@model/permission-model";
+import {Machine, MachineOperation, MachinePage, StateChangeMessage} from "@model/machine-model";
+import {AuthenticationService} from "@services/authentication.service";
+import {MachineManagementService} from "@services/machine-management.service";
+import {ListenerService} from "@services/listener.service";
 
 @Component({
   selector: 'app-machine-list',

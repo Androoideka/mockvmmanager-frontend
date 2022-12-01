@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import {Observable, Subject} from "rxjs";
 import {CompatClient, Stomp} from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
-import {StateChangeMessage} from "../model/machine-model";
-import {Observable, Subject} from "rxjs";
+import { environment } from '@environments/environment'
+import {StateChangeMessage} from "@model/machine-model";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class ListenerService {
   }
 
   connect(token: string, topic: string): void {
-    const socket = new SockJS("http://localhost:8080/ws?token=" + token);
+    const socket = new SockJS(environment.apiUrl + "/ws?token=" + token);
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect({}, this.onConnect.bind(this));
     this.topic = topic;

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {MachineManagementService} from "../services/machine-management.service";
 import {Observer} from "rxjs";
-import {Machine, MachineCreateRequest} from "../model/machine-model";
+import {Machine, MachineCreateRequest} from "@model/machine-model";
+import {MachineManagementService} from "@services/machine-management.service";
 
 @Component({
   selector: 'app-create-machine',

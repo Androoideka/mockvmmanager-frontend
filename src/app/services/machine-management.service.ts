@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
+import {formatDate} from "@angular/common";
 import {HttpClient} from "@angular/common/http";
+import {map, Observable} from "rxjs";
+import { environment } from '@environments/environment'
 import {
   Machine,
   MachineCreateRequest,
@@ -7,16 +10,13 @@ import {
   MachineOperation,
   MachinePage,
   MachinePageResponse
-} from "../model/machine-model";
-import {map, Observable} from "rxjs";
-import {formatDate} from "@angular/common";
+} from "@model/machine-model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MachineManagementService {
 
-  private apiUrl: string = 'http://localhost:8080';
   private machineUrl: string = '/machine';
   private searchUrl: string = '/search';
   private createUrl: string = '/create';
@@ -28,14 +28,14 @@ export class MachineManagementService {
   constructor(private httpClient: HttpClient) { }
 
   createMachine(machineCreateRequest: MachineCreateRequest): Observable<Machine> {
-    const url: string = this.apiUrl + this.machineUrl + this.createUrl;
+    const url: string = environment.apiUrl + this.machineUrl + this.createUrl;
     return this.httpClient.post<MachineData>(url, machineCreateRequest).pipe<Machine>(map(response => {
       return Machine.fromResponse(response);
     }));
   }
 
   searchMachines(name_filter: string, from_filter: Date | undefined, to_filter: Date | undefined, stopped: boolean, running: boolean, page: number, size: number): Observable<MachinePage> {
-    let url: string = this.apiUrl + this.machineUrl + this.searchUrl + '?page=' + page + '&size=' + size;
+    let url: string = environment.apiUrl + this.machineUrl + this.searchUrl + '?page=' + page + '&size=' + size;
     if(name_filter.trim() != '') {
       url += '&';
       url += 'name=' + name_filter;
@@ -80,21 +80,21 @@ export class MachineManagementService {
   }
 
   executeOperation(machine: Machine, machineOperation: MachineOperation): Observable<void> {
-    const url: string = this.apiUrl + this.machineUrl + this.urlForOperation(machineOperation)
+    const url: string = environment.apiUrl + this.machineUrl + this.urlForOperation(machineOperation)
       + '/' + machine.machineId
     return this.httpClient.get<void>(url);
   }
 
   scheduleOperation(machine: Machine, machineOperation: MachineOperation, cron: string): Observable<void> {
     const cronParam = cron.split(' ').join('%20');
-    const url: string = this.apiUrl + this.machineUrl + this.urlForOperation(machineOperation)
+    const url: string = environment.apiUrl + this.machineUrl + this.urlForOperation(machineOperation)
       + '/' + machine.machineId
       + '?cron=' + cronParam;
     return this.httpClient.get<void>(url);
   }
 
   destroyMachine(machine: Machine): Observable<void> {
-    const url: string = this.apiUrl + this.machineUrl + this.destroyUrl + '/' + machine.machineId;
+    const url: string = environment.apiUrl + this.machineUrl + this.destroyUrl + '/' + machine.machineId;
     return this.httpClient.delete<void>(url);
   }
 }

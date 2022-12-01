@@ -1,4 +1,4 @@
-import {PermissionListResponse} from "./permission-model";
+import {PermissionListResponse} from "@model/permission-model";
 
 export interface UserResponse {
   userId: number,

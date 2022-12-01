@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ErrorLog, ErrorLogPage} from "../model/error-model";
 import {Observer} from "rxjs";
-import {ErrorService} from "../services/error.service";
-import {Machine, MachinePage} from "../model/machine-model";
-import {MachineManagementService} from "../services/machine-management.service";
-import {AuthenticationService} from "../services/authentication.service";
-import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
+import {ErrorLog, ErrorLogPage} from "@model/error-model";
+import {Machine, MachinePage} from "@model/machine-model";
+import {PERMISSION_REPRESENTATIONS} from "@model/permission-model";
+import {ErrorService} from "@services/error.service";
+import {MachineManagementService} from "@services/machine-management.service";
+import {AuthenticationService} from "@services/authentication.service";
 
 @Component({
   selector: 'app-error-log',

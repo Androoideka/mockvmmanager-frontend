@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {AuthenticationService} from "../services/authentication.service";
-import {LoginRequest} from "../model/user-dto";
 import {Observer} from "rxjs";
-import {Authentication} from "../model/user-model";
+import {LoginRequest} from "@model/user-dto";
+import {Authentication} from "@model/user-model";
+import {AuthenticationService} from "@services/authentication.service";
 
 @Component({
   selector: 'app-login',

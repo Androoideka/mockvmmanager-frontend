@@ -1,5 +1,5 @@
-import {AuthenticationResponse, UserResponse} from "./user-dto";
-import {PermissionCarrier, PermissionList} from "./permission-model";
+import {AuthenticationResponse, UserResponse} from "@model/user-dto";
+import {PermissionCarrier, PermissionList} from "@model/permission-model";
 
 export class User {
   static fromLocalStorage(): User {

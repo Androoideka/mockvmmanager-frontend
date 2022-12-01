@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {CrudService} from "../services/crud.service";
-import {User} from "../model/user-model";
 import {Observer} from "rxjs";
-import {PERMISSION_REPRESENTATIONS} from "../model/permission-model";
+import {User} from "@model/user-model";
+import {PERMISSION_REPRESENTATIONS} from "@model/permission-model";
+import {CrudService} from "@services/crud.service";
 
 @Component({
   selector: 'app-create-user',

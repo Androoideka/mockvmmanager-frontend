@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {PERMISSION_REPRESENTATIONS, PermissionList} from "@model/permission-model";
 import {HomeComponent} from "./home/home.component";
 import {LoginComponent} from "./login/login.component";
 import {CreateUserComponent} from "./create-user/create-user.component";
 import {UserListComponent} from "./user-list/user-list.component";
 import {EditUserComponent} from "./edit-user/edit-user.component";
 import {AuthGuard} from "./auth.guard";
-import {PERMISSION_REPRESENTATIONS, PermissionList} from "./model/permission-model";
 import {CreateMachineComponent} from "./create-machine/create-machine.component";
 import {MachineListComponent} from "./machine-list/machine-list.component";
 import {ErrorLogComponent} from "./error-log/error-log.component";
