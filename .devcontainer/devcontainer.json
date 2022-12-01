@@ -8,6 +8,7 @@
     "customizations": {
         "vscode": {
             "extensions": [
+                "vscode.npm",
                 "Angular.ng-template"
             ]
         }
