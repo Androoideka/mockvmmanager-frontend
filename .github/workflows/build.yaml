@@ -1,0 +1,35 @@
+name: Build Angular artifacts
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+        description: Artifact name to use when uploading results of build
+
+jobs:
+  build-angular:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: Androoideka/vm-manager-frontend
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+      - name: Install dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm install
+      - name: Build app for production
+        run: npm run build -- --configuration production
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          retention-days: 1
+          name: ${{ inputs.artifact-name }}
+          path: |
+            dist/vm-manager
+            !dist/vm-manager/*.md
